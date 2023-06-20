@@ -1,6 +1,5 @@
+import { NextFunction, Request, Response, Router } from 'express'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
-import { NextFunction } from 'express'
-
 /**
  * Wraps client side handlers, not wrapped with catchAsync, so as to push 500 errors to the global error handlers. Ensures, app never crashes.
  * @param next middleware next function
@@ -28,5 +27,13 @@ export async function asyncHandlerWrapper<T>(
 
     const err = error as { message: string }
     next(new BadRequestException(err.message, 500))
+  }
+}
+
+export function asyncWrapper(
+  fn: (req: Request, res: Response, next: NextFunction) => Promise<any>,
+) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    fn(req, res, next).catch(next)
   }
 }

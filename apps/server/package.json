@@ -34,7 +34,9 @@
   },
   "_moduleAliases": {
     "@config": "./src/config",
+    "@controllers": "./src/controllers",
     "@lib": "./src/lib",
+    "@models": "./src/models",
     "@routes": "./src/routes",
     "@utils": "./src/utils"
   }

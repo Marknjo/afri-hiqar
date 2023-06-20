@@ -27,6 +27,7 @@ export interface IExceptionResponse {
   data: {
     message?: string
     field?: string | undefined
+    stack?: string
   }
 }
 
