@@ -1,0 +1,20 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    env_file:
+      - ./apps/server/.env.local
+
+    volumes:
+      - afriHicker-data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    env_file:
+      - ./apps/server/.env.local
+
+volumes:
+  afriHicker-data:
