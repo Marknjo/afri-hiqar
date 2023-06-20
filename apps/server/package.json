@@ -26,7 +26,13 @@
     "@types/node": "^20.3.1",
     "dotenv": "^16.3.1",
     "eslint": "^8.43.0",
+    "module-alias": "^2.2.3",
     "ts-node-dev": "^2.0.0",
     "vitest": "^0.32.2"
+  },
+  "_moduleAliases": {
+    "@config": "./src/config",
+    "@lib": "./src/lib",
+    "@utils": "./src/utils"
   }
 }

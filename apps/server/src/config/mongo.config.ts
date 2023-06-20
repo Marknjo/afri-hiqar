@@ -6,6 +6,7 @@ import { env } from 'process'
 
 // 3rd Party
 import mongoose from 'mongoose'
+import { isProd } from '@utils/env'
 
 /**
  * Make online mongodb connection string
@@ -44,7 +45,6 @@ function generateDbConnection(): string | undefined {
   const port = env.DB_PORT
   const host = env.DB_HOST
   const user = env.MONGO_INITDB_ROOT_USERNAME
-  const isProd = env.NODE_ENV === 'production'
 
   if (!localDbConn || !pass || !coll || !user || !host || !port) return
 

@@ -1,3 +1,4 @@
+import 'module-alias/register'
 import './config/dotenv.config'
 import app from './app'
 import './config/mongo.config'
