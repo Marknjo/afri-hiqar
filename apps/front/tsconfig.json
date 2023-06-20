@@ -1,0 +1,20 @@
+{
+  "extends": "@mj/tsconfig/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "@pages/*": ["./src/components/pages/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@layouts/*": ["./src/components/layouts/*"],
+      "@features/*": ["./src/components/features/*"],
+      "@utils/*": ["./src/components/utils/*"],
+      "@data/*": ["./src/data/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@store/*": ["./src/store/*"],
+      "@server/*": ["./src/server/*"]
+    }
+  },
+  "include": ["src/"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

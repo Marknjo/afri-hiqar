@@ -1,0 +1,49 @@
+{
+  "name": "@mj/app",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "preview": "turbo run start",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo run test",
+    "coverage": "vitest --coverage",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@mj/eslint-config": "workspace:*",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "esbuild": "^0.18.4",
+    "husky": "^8.0.3",
+    "identity-obj-proxy": "^3.0.0",
+    "lint-staged": "^13.2.2",
+    "msw": "^1.2.2",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@8.6.1",
+  "lint-staged": {
+    "apps/**/*.{js,ts,jsx,tsx}": [
+      "eslint --fix"
+    ],
+    "packages/@mj/ui/**/*.{js,ts,jsx,tsx}": [
+      "eslint --fix"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "react:latest": "link:@testing-library/react:latest"
+  }
+}
