@@ -133,6 +133,9 @@ importers:
       '@types/morgan':
         specifier: ^1.9.4
         version: 1.9.4
+      bcryptjs:
+        specifier: ^2.4.3
+        version: 2.4.3
       express:
         specifier: ^4.18.2
         version: 4.18.2
@@ -149,6 +152,9 @@ importers:
         specifier: ^13.9.0
         version: 13.9.0
     devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.2
+        version: 2.4.2
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.17
@@ -1318,6 +1324,10 @@ packages:
     resolution: {integrity: sha512-XTIieEY+gvJ39ChLcB4If5zHtPxt3Syj5rgZR+e1ctpmK8NjPf0zFqsz4JpLJT0xla9GFDKjy8Cpu331nrmE1Q==}
     dev: true
 
+  /@types/bcryptjs@2.4.2:
+    resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
+    dev: true
+
   /@types/body-parser@1.19.2:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
@@ -1951,6 +1961,10 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       safe-buffer: 5.1.2
+    dev: false
+
+  /bcryptjs@2.4.3:
+    resolution: {integrity: sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==}
     dev: false
 
   /big-integer@1.6.51:
