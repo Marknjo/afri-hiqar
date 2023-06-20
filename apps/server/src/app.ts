@@ -10,6 +10,9 @@ const apiVersion = env.API_VERSION || 1
 /// logger
 logger(app)
 
+/// Configs
+app.use(express.json({ limit: '10kb' }))
+
 /// performance
 
 /// Routes
