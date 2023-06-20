@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "build/src",
-    "dev": "tsnd src/index",
+    "dev": "NODE_ENV=development tsnd src/index",
     "build": "tsc",
     "test": "vitest -w --reporter verbose",
     "coverage": "vitest --coverage",

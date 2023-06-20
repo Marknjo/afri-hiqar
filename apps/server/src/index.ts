@@ -1,5 +1,6 @@
 import './config/dotenv.config'
 import app from './app'
+import './config/mongo.config'
 
 /// start server
 const port = 4000
