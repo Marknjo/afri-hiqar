@@ -35,6 +35,7 @@
   "_moduleAliases": {
     "@config": "./src/config",
     "@lib": "./src/lib",
+    "@routes": "./src/routes",
     "@utils": "./src/utils"
   }
 }
