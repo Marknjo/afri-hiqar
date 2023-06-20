@@ -1,3 +1,4 @@
+import './config/dotenv.config'
 import app from './app'
 
 /// start server

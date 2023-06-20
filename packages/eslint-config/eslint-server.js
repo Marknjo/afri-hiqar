@@ -31,6 +31,9 @@ module.exports = {
       },
     },
   },
+  rules: {
+    'eslint-disable import/no-extraneous-dependencies': 'off',
+  },
   overrides: [
     {
       files: [
@@ -41,7 +44,7 @@ module.exports = {
       extends: ['plugin:vitest/recommended'],
       rules: {
         'import/no-extraneous-dependencies': [
-          'off',
+          'on',
           { devDependencies: ['**/?(*.)+(spec|test).[jt]s'] },
         ],
         'vitest/max-nested-describe': [
