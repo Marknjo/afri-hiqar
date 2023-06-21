@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 /**
  * Wraps client side handlers, not wrapped with catchAsync, so as to push 500 errors to the global error handlers. Ensures, app never crashes.

@@ -1,9 +1,11 @@
+import * as review from '@controllers/review'
 import { Router } from 'express'
 
 const router: Router = Router()
 
-router.get('/', (req, res) => {
-  res.send('Reviews Router')
-})
+/**
+ * Getters
+ */
+router.get('/', review.getAllReviews)
 
 export default router

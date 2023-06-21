@@ -1,9 +1,11 @@
+import * as tour from '@controllers/tour'
 import { Router } from 'express'
 
 const router: Router = Router()
 
-router.get('/', (req, res) => {
-  res.send('Tours Router')
-})
+/**
+ * Get all tours
+ */
+router.get('/', tour.getAllTours)
 
 export default router
