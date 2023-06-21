@@ -16,6 +16,38 @@
     "dev": {
       "cache": false
     },
+    "import": {
+      "cache": false,
+      "outputs": []
+    },
+    "import:user": {
+      "cache": false,
+      "outputs": []
+    },
+    "import:tour": {
+      "cache": false,
+      "outputs": []
+    },
+    "import:review": {
+      "cache": false,
+      "outputs": []
+    },
+    "wipe": {
+      "cache": false,
+      "outputs": []
+    },
+    "wipe:user": {
+      "cache": false,
+      "outputs": []
+    },
+    "wipe:tour": {
+      "cache": false,
+      "outputs": []
+    },
+    "wipe:review": {
+      "cache": false,
+      "outputs": []
+    },
     "coverage": {
       "dependsOn": ["^build"],
       "outputs": ["coverage/**"]

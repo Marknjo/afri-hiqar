@@ -5,11 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "build/src",
-    "dev": "NODE_ENV=development tsnd src/index",
+    "dev": "NODE_ENV=development tsnd --files src/index",
     "build": "tsc",
     "test": "vitest -w --reporter verbose",
     "coverage": "vitest --coverage",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "import": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --import-all",
+    "import:tour": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --import-tour",
+    "import:review": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --import-review",
+    "import:user": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --import-user",
+    "wipe": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --wipe-all",
+    "wipe:tour": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --wipe-tour",
+    "wipe:review": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --wipe-review",
+    "wipe:user": "NODE_ENV=development tsnd --files src/dev-data/dataLoader --wipe-user"
   },
   "keywords": [],
   "author": "",

@@ -14,7 +14,17 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test",
     "coverage": "vitest --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "//": "IMPORT DB DATA",
+    "import": "turbo run import",
+    "import:user": "turbo run import:user",
+    "import:review": "turbo run import:review",
+    "import:tour": "turbo run import:tour",
+    "//-": "WIPE DB DATA",
+    "wipe": "turbo run wipe",
+    "wipe:user": "turbo run wipe:user",
+    "wipe:review": "turbo run wipe:review",
+    "wipe:tour": "turbo run wipe:tour"
   },
   "devDependencies": {
     "@mj/eslint-config": "workspace:*",
