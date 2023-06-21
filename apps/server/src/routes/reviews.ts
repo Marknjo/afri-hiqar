@@ -8,4 +8,6 @@ const router: Router = Router()
  */
 router.get('/', review.getAllReviews)
 
+router.get('/:reviewId', review.getReview)
+
 export default router

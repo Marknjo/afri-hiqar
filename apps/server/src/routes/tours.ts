@@ -8,4 +8,6 @@ const router: Router = Router()
  */
 router.get('/', tour.getAllTours)
 
+router.get('/:tourId', tour.getTour)
+
 export default router

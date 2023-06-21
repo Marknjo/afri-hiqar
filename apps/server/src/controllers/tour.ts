@@ -1,6 +1,6 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, getAll } from '@lib/modules'
+import { EModelNames, getAll, getOne } from '@lib/modules'
 import Tour from '@models/tourModel'
 import { ITour } from '@models/types'
 import { NextFunction, Request } from 'express'
@@ -15,3 +15,8 @@ export const getAllTours = getAll<ITour>({
     modelName: EModelNames.TOUR,
   },
 }) as () => void
+
+export const getTour = getOne<ITour>(Tour, {
+  modelName: 'tour',
+  populateOptions: { path: 'reviews', select: 'review rating updatedAt' },
+})

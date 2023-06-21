@@ -8,4 +8,7 @@ const router: Router = Router()
  */
 router.get('/', user.getAllUsers)
 
+/// PROTECTED ROUTES
+router.get('/:userId', user.getUser)
+
 export default router

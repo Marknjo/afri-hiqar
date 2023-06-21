@@ -1,7 +1,7 @@
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { NextFunction, Request, Response } from 'express'
 import { Query, Model as HandlerModel } from 'mongoose'
-import { IGenericHandlerOption } from './types'
+import { IGenericHandlerOption, TGenericHandler } from './types'
 import FindFeatures from './findFeatures'
 
 export function getAll<T>({
@@ -10,7 +10,7 @@ export function getAll<T>({
 }: {
   Model: Query<any, T> | HandlerModel<T>
   options: IGenericHandlerOption
-}): (req: Request, res: Response, next: NextFunction) => void {
+}): TGenericHandler {
   return asyncWrapper(async function (
     req: Request,
     res: Response,

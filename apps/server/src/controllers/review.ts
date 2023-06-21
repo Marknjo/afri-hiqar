@@ -1,12 +1,12 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, getAll } from '@lib/modules'
+import { EModelNames, getAll, getOne } from '@lib/modules'
 import Review from '@models/reviewModel'
 import { IReview } from '@models/types'
 
 // CRUD HANDLERS
 /**
- * Get All Reviews
+ * Basic CRUDS
  */
 export const getAllReviews = getAll<IReview>({
   Model: Review,
@@ -14,3 +14,5 @@ export const getAllReviews = getAll<IReview>({
     modelName: EModelNames.REVIEW,
   },
 }) as () => void
+
+export const getReview = getOne(Review, { modelName: 'review' })

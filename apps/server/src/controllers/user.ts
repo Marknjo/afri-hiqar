@@ -1,6 +1,6 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, getAll } from '@lib/modules'
+import { EModelNames, getAll, getOne } from '@lib/modules'
 import User from '@models/userModel'
 import { IUser } from '@models/types'
 
@@ -14,3 +14,5 @@ export const getAllUsers = getAll<IUser>({
     modelName: EModelNames.USER,
   },
 }) as () => void
+
+export const getUser = getOne<IUser>(User, { modelName: 'user' })

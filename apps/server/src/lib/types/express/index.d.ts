@@ -7,6 +7,7 @@ declare global {
     export interface Request {
       optionalFilters?: any
       query?: IQueryString
+      currentId?: string
     }
   }
 }
