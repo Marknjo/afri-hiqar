@@ -1,7 +1,7 @@
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { NextFunction, Request, Response } from 'express'
 import { Query, Model as HandlerModel } from 'mongoose'
-import { IGetOneOptions, TGenericHandler } from './types'
+import { IGetOneOptions, TGenericRequest } from './types'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
 
 /**
@@ -13,7 +13,7 @@ import { NotFoundException } from '@lib/exceptions/NotFoundException'
 export function getOne<T>(
   Model: Query<any, T> | HandlerModel<T>,
   options: IGetOneOptions,
-): TGenericHandler {
+): TGenericRequest {
   return asyncWrapper(
     async (req: Request, res: Response, next: NextFunction) => {
       // setup id dynamically
