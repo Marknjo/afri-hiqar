@@ -7,20 +7,16 @@ import { TGenericRequestAsyncHandler } from '@lib/modules/handlersFactory'
  * @param callback callback passed to the react
  * @returns Handler function rendered inside express handler
  */
-export function handlerWrapper<T>(
-  next: NextFunction,
-  callback: (args?: Array<T>) => any,
-) {
+export function handlerWrapper<T>(callback: (args?: Array<T>) => any) {
   try {
     return callback()
   } catch (error: unknown) {
     const err = error as { message: string }
-    next(new BadRequestException(err.message, 500))
+    new BadRequestException(err.message, 500)
   }
 }
 
 export async function asyncHandlerWrapper<T>(
-  next: NextFunction,
   callback: (args?: Array<T>) => Promise<any | void>,
   allowThrow: boolean = false,
 ) {
@@ -30,7 +26,7 @@ export async function asyncHandlerWrapper<T>(
     if (allowThrow) throw error
 
     const err = error as { message: string }
-    next(new BadRequestException(err.message, 500))
+    new BadRequestException(err.message, 500)
   }
 }
 
