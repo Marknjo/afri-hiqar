@@ -14,6 +14,7 @@ import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Review from '@models/reviewModel'
 import { IReview } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
+import { NextFunction, Request, Response } from 'express'
 
 /// MIDDLEWARES HANDLERS
 
@@ -80,6 +81,23 @@ export const filterGetReviews: TGenericRequestHandler = asyncWrapper(
     next()
   },
 )
+
+/**
+ * Prepare body with tour and user computed automatically during tour review creation/adding
+ *
+ */
+export const prepCreateReviewFields = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  // body should have the tour and the user Id
+  req.body.tour = req.params.tourId
+  req.body.user = req.user!.id
+
+  // next
+  next()
+}
 
 // CRUD HANDLERS
 /**
