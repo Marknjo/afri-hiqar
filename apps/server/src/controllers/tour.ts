@@ -188,3 +188,64 @@ export const getMonthlyPlans: TGenericRequestHandler = asyncWrapper(
     })
   },
 )
+
+/**
+ * Advanced implementation of finding tours within a given distance
+ * given coordinates and the unit (miles/km)
+ */
+export const getToursWithinARadius: TGenericRequestHandler = asyncWrapper(
+  async (req, res, _next) => {
+    // Get Params -> distance, center [lat,lag], unit [mi/km]
+    const { distance, latlng, unit } = req.params
+
+    // Validate each step
+    // Validate existence
+    if (!distance || !latlng || !unit)
+      throw new BadRequestException(
+        'Distance or center or unit values missing from the request',
+      )
+
+    // Validate unit type
+    if (unit !== 'km' && unit !== 'mi')
+      throw new BadRequestException('Invalid unit type provided')
+
+    // Validate distance is a number
+    if (!Number.isFinite(+distance))
+      throw new BadRequestException('Distance must be a number')
+
+    // Validate lat lng
+    const [lat, lng] = latlng.split(',')
+
+    if (!lat || !lng)
+      throw new BadRequestException(
+        'Latitude and longitude should be separated by comma (31.038635,-117.6199248)',
+      )
+
+    const isLatLngValidFormat =
+      /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/.test(
+        latlng,
+      )
+
+    if (!isLatLngValidFormat)
+      throw new BadRequestException(
+        'Latitude and longitude not in a valid format!',
+      )
+
+    // radius
+    const radius = unit === 'mi' ? +distance / 3963 : +distance / 6378
+
+    // Geo Find query
+    const tours = await Tour.find({
+      startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+    })
+
+    // Responses
+    res.status(200).json({
+      status: 'success',
+      results: tours.length,
+      data: {
+        tours,
+      },
+    })
+  },
+)

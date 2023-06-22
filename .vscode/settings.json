@@ -3,6 +3,7 @@
     "clct",
     "dsphere",
     "INITDB",
+    "latlng",
     "localforage",
     "maxlength",
     "tsnd"

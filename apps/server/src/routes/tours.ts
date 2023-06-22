@@ -20,7 +20,13 @@ router.route('/').get(tour.getAllTours).post(tour.createTour)
 // Get tours statics by difficult level (prices, averageRatings e.t.c) - Restrict to admin/lead-guide/login users
 router.route('/tour-stats-by-difficulty').get(tour.getToursStatsByDifficulty)
 
+// Aggregator - return all tours by month
 router.route('/monthly-plans/:year').get(tour.getMonthlyPlans)
+
+// Aggregator - get tours within a given radius
+router
+  .route('/within-radius/:distance/center/:latlng/unit/:unit')
+  .get(tour.getToursWithinARadius)
 
 router
   .route('/:tourId')
