@@ -4,14 +4,14 @@
  * @param  dataObj Object to filter its keys
  * @returns Filtered fields, key:value object
  */
-export const filterRequiredFields = (
+export function filterRequiredFields<T extends { [key: string]: any }>(
   fields: Array<string>,
   dataObj: { [key: string]: any },
-) => {
+): T {
   const dataFields = new Map(Object.entries(dataObj))
 
   return fields.reduce((curr: { [key: string]: any }, field) => {
     if (dataFields.has(field)) curr[field] = dataObj[field]
     return curr
-  }, {})
+  }, {}) as T
 }
