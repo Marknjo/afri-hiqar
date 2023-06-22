@@ -1,4 +1,5 @@
 import { env } from 'process'
+import { resolve } from 'path'
 import express, { Application } from 'express'
 import { logger } from '@config/logger.config'
 
@@ -18,6 +19,13 @@ const app: Application = express()
 
 /// setup
 const apiVersion = env.API_VERSION || 1
+
+/// Set view engines
+/// Set Pug as the default view template engine
+app.set('view engine', 'pug')
+
+/// Set view path
+app.set('views', resolve(__dirname, 'views'))
 
 /// logger
 logger(app)
