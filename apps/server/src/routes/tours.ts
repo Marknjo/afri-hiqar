@@ -6,12 +6,16 @@ const router: Router = Router()
 /**
  * Public Routes
  */
+
 //- Aliases Routes
 router.get('/top-5-cheap-tours', tour.getCheapestTours, tour.getAllTours)
 router.get('/top-5-best-rated-tours', tour.getTopRatedTours, tour.getAllTours)
 
 // Get all tours
 router.route('/').get(tour.getAllTours).post(tour.createTour)
+
+// @TODO: Get a single tour by id | Slug
+router.route('/:tourId').get(tour.getTour)
 
 /**
  * Protected Routes
@@ -29,9 +33,10 @@ router
   .get(tour.getToursWithinARadius)
 
 router
-  .route('/:tourId')
-  .get(tour.getTour)
-  .patch(tour.updateTour)
-  .delete(tour.deleteTour)
+  .route('/near-location/:latlng/unit/:unit/:limit')
+  .get(tour.getToursNearLocation)
+
+// Admin only routes
+router.route('/:tourId').patch(tour.updateTour).delete(tour.deleteTour)
 
 export default router

@@ -249,3 +249,87 @@ export const getToursWithinARadius: TGenericRequestHandler = asyncWrapper(
     })
   },
 )
+
+/**
+ * Advanced implementation of finding tours nearest to a given location
+ *
+ */
+export const getToursNearLocation: TGenericRequestHandler = asyncWrapper(
+  async (req, res, _next) => {
+    // get the longitude
+    const { limit, latlng, unit } = req.params
+
+    if (!latlng && !unit)
+      throw new BadRequestException(
+        'The request must include the your location and unit of choice(mi/km)',
+      )
+
+    if (!Number.isFinite(+limit))
+      throw new BadRequestException('Limit must be a number')
+
+    // Validate unit type
+    if (unit !== 'km' && unit !== 'mi')
+      throw new BadRequestException('Invalid unit type provided')
+
+    // Validate lat lng
+    const [lat, lng] = latlng.split(',')
+
+    if (!lat || !lng)
+      throw new BadRequestException(
+        'Latitude and longitude should be separated by comma (31.038635,-117.6199248)',
+      )
+
+    const isLatLngValidFormat =
+      /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/.test(
+        latlng,
+      )
+
+    if (!isLatLngValidFormat)
+      throw new BadRequestException(
+        'Latitude and longitude not in a valid format!',
+        EExceptionStatusCodes.REQUEST_NOT_ACCEPTABLE,
+      )
+
+    // Configure
+    const multiplier = unit === 'mi' ? 0.000621371 : 0.001
+
+    // Create the aggregation
+    const tours = await Tour.aggregate([
+      // GEO WITHIN
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [+lng, +lat],
+          },
+          distanceField: 'distance',
+          distanceMultiplier: multiplier,
+        },
+      },
+
+      // Project - distance, name,
+      {
+        $project: { name: 1, distance: 1, price: 1, maxGroupSize: 1 },
+      },
+
+      // set limit
+      {
+        $limit: limit ? +limit : 10,
+      },
+
+      // Sort ascending order
+      {
+        $sort: { distance: 1 },
+      },
+    ])
+
+    // Return the response
+    res.status(200).json({
+      status: 'success',
+      results: tours.length,
+      data: {
+        tours,
+      },
+    })
+  },
+)
