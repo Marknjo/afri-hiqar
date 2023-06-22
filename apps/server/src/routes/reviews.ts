@@ -1,7 +1,11 @@
 import * as review from '@controllers/review'
+import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { Router } from 'express'
 
 const router: Router = Router()
+
+// middlewares
+router.param('reviewId', isValidIdMiddleware)
 
 /**
  * Getters

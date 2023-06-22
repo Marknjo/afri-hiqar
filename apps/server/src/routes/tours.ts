@@ -1,7 +1,11 @@
 import * as tour from '@controllers/tour'
+import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { Router } from 'express'
 
 const router: Router = Router()
+
+// middlewares
+router.param('tourId', isValidIdMiddleware)
 
 /**
  * Public Routes

@@ -1,7 +1,11 @@
 import * as user from '@controllers/user'
 import { Router } from 'express'
+import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 
 const router: Router = Router()
+
+// check for valid id
+router.param('userId', isValidIdMiddleware)
 
 /**
  * Getters

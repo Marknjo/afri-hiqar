@@ -10,6 +10,8 @@ declare global {
       query?: IQueryString
       currentId?: string
       user?: IUser
+      tourId?: string
+      userId?: string
     }
   }
 }
