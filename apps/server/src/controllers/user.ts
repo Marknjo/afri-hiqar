@@ -3,6 +3,7 @@
 import { EModelNames, getAll, getOne } from '@lib/modules'
 import User from '@models/userModel'
 import { IUser } from '@models/types'
+import { createOne } from '@lib/modules/createOne'
 
 // CRUD HANDLERS
 /**
@@ -15,4 +16,8 @@ export const getAllUsers = getAll<IUser>({
   },
 }) as () => void
 
-export const getUser = getOne<IUser>(User, { modelName: 'user' })
+export const getUser = getOne<IUser>(User, { modelName: 'user' }) as () => void
+
+export const createUser = createOne<IUser>(User, {
+  modelName: 'user',
+})

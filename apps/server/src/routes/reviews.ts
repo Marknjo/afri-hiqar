@@ -6,7 +6,7 @@ const router: Router = Router()
 /**
  * Getters
  */
-router.get('/', review.getAllReviews)
+router.route('/').get(review.getAllReviews).post(review.createReview)
 
 router.get('/:reviewId', review.getReview)
 

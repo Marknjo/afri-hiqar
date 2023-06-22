@@ -6,7 +6,7 @@ const router: Router = Router()
 /**
  * Get all tours
  */
-router.get('/', tour.getAllTours)
+router.route('/').get(tour.getAllTours).post(tour.createTour)
 
 router.get('/:tourId', tour.getTour)
 

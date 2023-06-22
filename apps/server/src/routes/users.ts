@@ -6,7 +6,7 @@ const router: Router = Router()
 /**
  * Getters
  */
-router.get('/', user.getAllUsers)
+router.route('/').get(user.getAllUsers).post(user.createUser)
 
 /// PROTECTED ROUTES
 router.get('/:userId', user.getUser)
