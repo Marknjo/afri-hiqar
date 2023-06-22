@@ -1,4 +1,5 @@
 import { IQueryString } from '@lib/modules'
+import { IUser } from '@models/types'
 
 export {}
 
@@ -8,6 +9,7 @@ declare global {
       optionalFilters?: any
       query?: IQueryString
       currentId?: string
+      user?: IUser
     }
   }
 }
