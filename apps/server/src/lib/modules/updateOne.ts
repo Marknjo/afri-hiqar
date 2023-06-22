@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
 import { Query, Model as HandlerModel } from 'mongoose'
 
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
-import { ICreateOneOptions, TGenericRequest } from './types'
+import { ICreateOneOptions, TGenericRequestHandler } from './types'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
 
 /**
@@ -17,47 +16,48 @@ import { NotFoundException } from '@lib/exceptions/NotFoundException'
 export function updateOne<T>(
   Model: Query<any, T> | HandlerModel<T>,
   options: ICreateOneOptions,
-): TGenericRequest {
-  return asyncWrapper(
-    async (req: Request, res: Response, _next: NextFunction) => {
-      // check if there is a body filter options
-      const { requiredFields, modelName } = options
+): TGenericRequestHandler {
+  return asyncWrapper(async (req, res, _next) => {
+    // check if there is a body filter options
+    const { requiredFields, modelName } = options
 
-      let body
-      // Get doc body
-      if (requiredFields) {
-        // Filter the body
-        body = filterRequiredFields(req.body, requiredFields)
-      } else {
-        body = req.body
-      }
+    let body
+    // Get doc body
+    if (requiredFields) {
+      // Filter the body
+      body = filterRequiredFields(req.body, requiredFields)
+    } else {
+      body = req.body
+    }
 
-      // @TODO: support files upload
+    // @TODO: support files upload
 
-      // Get Id
-      const id = req.params[`${modelName}Id`] // i.e tourId, userId
+    // Get Id
+    const id = req.params[`${modelName}Id`] // i.e tourId, userId
 
-      // Update the tour from the supplied body -> return updated tour and runValidators
-      const doc = await (Model as HandlerModel<T>).findByIdAndUpdate(id, body, {
-        new: true,
-        runValidators: true,
-      })
+    // Update the tour from the supplied body -> return updated tour and runValidators
+    const doc = await (Model as HandlerModel<T>).findByIdAndUpdate(id, body, {
+      new: true,
+      runValidators: true,
+    })
 
-      // Validate doc update
-      if (!doc)
-        throw new NotFoundException(
-          `${modelName.charAt(0).toLocaleUpperCase()}${modelName.slice(
-            1,
-          )} update error`,
-        )
+    // Validate doc update
+    if (!doc)
+      throw new NotFoundException(
+        `${modelName.charAt(0).toLocaleUpperCase()}${modelName.slice(
+          1,
+        )} update error`,
+      )
 
-      // Return success message to requester
-      res.status(202).json({
-        status: 'success',
-        data: {
-          [modelName]: doc,
-        },
-      })
-    },
-  )
+    // Return success message to requester
+    res.status(202).json({
+      status: 'success',
+      message: options.message
+        ? options.message
+        : `${options.modelName} was updated successfully`,
+      data: {
+        [modelName]: doc,
+      },
+    })
+  })
 }

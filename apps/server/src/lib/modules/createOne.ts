@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
 import { Query, Model as HandlerModel } from 'mongoose'
 
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
-import { ICreateOneOptions, TGenericRequest } from './types'
+import { ICreateOneOptions, TGenericRequestHandler } from './types'
 
 /**
  * Create one general handler method
@@ -15,37 +14,35 @@ import { ICreateOneOptions, TGenericRequest } from './types'
 export function createOne<T>(
   Model: Query<any, T> | HandlerModel<T>,
   options: ICreateOneOptions,
-): TGenericRequest {
-  return asyncWrapper(
-    async (req: Request, res: Response, _next: NextFunction) => {
-      // check if there is a body filter options
-      const { requiredFields, modelName } = options
+): TGenericRequestHandler {
+  return asyncWrapper(async (req, res, _next) => {
+    // check if there is a body filter options
+    const { requiredFields, modelName } = options
 
-      let body
-      // Get doc body
-      if (requiredFields) {
-        // Filter the body
-        body = filterRequiredFields(req.body, requiredFields)
-      } else {
-        body = req.body
-      }
+    let body
+    // Get doc body
+    if (requiredFields) {
+      // Filter the body
+      body = filterRequiredFields(req.body, requiredFields)
+    } else {
+      body = req.body
+    }
 
-      // @TODO: support files upload
-      //if(req.files || req.file) body[options.fileFieldName] = req.file.filename;
+    // @TODO: support files upload
+    //if(req.files || req.file) body[options.fileFieldName] = req.file.filename;
 
-      // Save tour to db
-      const doc = await (Model as HandlerModel<T>).create(body)
+    // Save tour to db
+    const doc = await (Model as HandlerModel<T>).create(body)
 
-      // Return success message to requester
-      res.status(201).json({
-        status: 'success',
-        message: options.message
-          ? options.message
-          : `A new ${options.modelName} was added successfully`,
-        data: {
-          [modelName]: doc,
-        },
-      })
-    },
-  )
+    // Return success message to requester
+    res.status(201).json({
+      status: 'success',
+      message: options.message
+        ? options.message
+        : `A new ${options.modelName} was added successfully`,
+      data: {
+        [modelName]: doc,
+      },
+    })
+  })
 }

@@ -1,7 +1,6 @@
 import { asyncWrapper } from '@utils/handlerWrappers'
-import { NextFunction, Request, Response } from 'express'
 import { Query, Model as HandlerModel } from 'mongoose'
-import { IGenericHandlerOption, TGenericRequest } from './types'
+import { IGenericHandlerOption, TGenericRequestHandler } from './types'
 import FindFeatures from './findFeatures'
 
 export function getAll<T>({
@@ -10,12 +9,8 @@ export function getAll<T>({
 }: {
   Model: Query<any, T> | HandlerModel<T>
   options: IGenericHandlerOption
-}): TGenericRequest {
-  return asyncWrapper(async function (
-    req: Request,
-    res: Response,
-    _next: NextFunction,
-  ) {
+}): TGenericRequestHandler {
+  return asyncWrapper(async function (req, res, _next) {
     // Implement advancedFindFeatures (filters, sort, fields, pagination)
     let findQuery
 
