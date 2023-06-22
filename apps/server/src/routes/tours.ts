@@ -8,6 +8,10 @@ const router: Router = Router()
  */
 router.route('/').get(tour.getAllTours).post(tour.createTour)
 
-router.route('/:tourId').get(tour.getTour).patch(tour.updateTour)
+router
+  .route('/:tourId')
+  .get(tour.getTour)
+  .patch(tour.updateTour)
+  .delete(tour.deleteTour)
 
 export default router

@@ -1,6 +1,7 @@
 // SINGLE FEATURE HANDLERS
 
 import { EModelNames, createOne, getAll, getOne, updateOne } from '@lib/modules'
+import { deleteOne } from '@lib/modules/deleteOne'
 import Tour from '@models/tourModel'
 import { ITour } from '@models/types'
 import { NextFunction, Request } from 'express'
@@ -14,7 +15,7 @@ export const getAllTours = getAll<ITour>({
   options: {
     modelName: EModelNames.TOUR,
   },
-}) as () => void
+})
 
 export const getTour = getOne<ITour>(Tour, {
   modelName: 'tour',
@@ -23,3 +24,4 @@ export const getTour = getOne<ITour>(Tour, {
 
 export const createTour = createOne<ITour>(Tour, { modelName: 'tour' })
 export const updateTour = updateOne<ITour>(Tour, { modelName: 'tour' })
+export const deleteTour = deleteOne<ITour>(Tour, { modelName: 'tour' })
