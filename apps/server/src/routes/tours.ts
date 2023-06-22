@@ -17,8 +17,10 @@ router.route('/').get(tour.getAllTours).post(tour.createTour)
  * Protected Routes
  */
 
-// Get tours statics by difficult level (prices, averageRatings e.t.c) - Restrict to admin/lead-guide
+// Get tours statics by difficult level (prices, averageRatings e.t.c) - Restrict to admin/lead-guide/login users
 router.route('/tour-stats-by-difficulty').get(tour.getToursStatsByDifficulty)
+
+router.route('/monthly-plans/:year').get(tour.getMonthlyPlans)
 
 router
   .route('/:tourId')

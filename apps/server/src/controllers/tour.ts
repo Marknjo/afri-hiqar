@@ -1,5 +1,6 @@
 // SINGLE FEATURE HANDLERS
 
+import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import {
   EModelNames,
   TGenericRequestHandler,
@@ -9,6 +10,7 @@ import {
   updateOne,
 } from '@lib/modules'
 import { deleteOne } from '@lib/modules/deleteOne'
+import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Tour from '@models/tourModel'
 import { ITour } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
@@ -84,6 +86,7 @@ export const getTopRatedTours = (
  * ADVANCED QUERIES
  */
 /// AGGREGATORS HANDLERS
+
 /**
  * Implement get Tour Stats Grouped By Difficulty
  */
@@ -106,7 +109,7 @@ export const getToursStatsByDifficulty: TGenericRequestHandler = asyncWrapper(
           maxPrice: { $max: '$price' },
           minPrice: { $min: '$price' },
           avgPrice: { $avg: '$price' },
-          tours: { $push: { id: '$_id', name: '$name', price: '$price' } },
+          tours: { $push: { slug: '$slug', name: '$name', price: '$price' } },
         },
       },
 
@@ -119,6 +122,66 @@ export const getToursStatsByDifficulty: TGenericRequestHandler = asyncWrapper(
     // Response
     res.status(200).json({
       status: 'success',
+      data: {
+        stats,
+      },
+    })
+  },
+)
+
+/**
+ * Implement monthly plans for all tours within a given year
+ */
+export const getMonthlyPlans: TGenericRequestHandler = asyncWrapper(
+  async (req, res, _next) => {
+    // Get url params (Year)
+    const year = req.params.year
+    const isDigit = /^\d{4}$/.test(year)
+
+    if (!isDigit && Number.isFinite(+year))
+      throw new BadRequestException(
+        `Year format not supported`,
+        EExceptionStatusCodes.REQUEST_NOT_ACCEPTABLE,
+      )
+
+    // Aggregate tours based on the tour start Dates
+    const stats = await Tour.aggregate([
+      // Unwind by startDates,
+      {
+        $unwind: '$startDates',
+      },
+
+      // match tours by startDates
+      {
+        $match: {
+          startDates: {
+            $gte: new Date(`${year}-01-01`),
+            $lte: new Date(`${year}-12-01`),
+          },
+        },
+      },
+
+      // Group By month numTours, tours,
+      {
+        $group: {
+          _id: { $month: '$startDates' },
+          numTours: { $sum: 1 },
+          tours: { $push: { slug: '$slug', name: '$name', price: '$price' } },
+        },
+      },
+
+      // sort by month,
+      {
+        $sort: { _id: 1 },
+      },
+
+      // limit by 2
+    ])
+
+    // Return response
+    res.status(200).json({
+      status: 'success',
+      results: stats.length,
       data: {
         stats,
       },
