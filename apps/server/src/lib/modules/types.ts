@@ -30,8 +30,33 @@ export interface IGetOneOptions {
   populateOptions?: { path: string; select: string }
 }
 
-export type TGenericHandler = (
+export interface ICreateOneOptions {
+  modelName: string
+  message?: string
+  requiredFields?: Array<string>
+  fileFieldName?: string
+}
+
+export type TGenericRequest = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => void
+) => Response | void
+
+export type TRequestWithBody<TParam, TBody> = (
+  req: Request<TParam, {}, TBody>,
+  res: Response,
+  next: NextFunction,
+) => Response | void
+
+export type TGenericRequestAsync = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => Promise<Response | void>
+
+export type TGenericRequestWithBodyAsync<TParam, TBody> = (
+  req: Request<TParam, {}, TBody>,
+  res: Response,
+  next: NextFunction,
+) => Promise<Response | void>
