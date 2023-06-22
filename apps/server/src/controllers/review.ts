@@ -47,6 +47,40 @@ export const checkIfUserHasTheReview: TGenericRequestHandler = asyncWrapper(
   },
 )
 
+/**
+ *  Filter get reviews
+ */
+export const filterGetReviews: TGenericRequestHandler = asyncWrapper(
+  async (req, _res, next) => {
+    if (!req.user)
+      throw new BadRequestException(
+        'You do not have permission to access this route',
+        EExceptionStatusCodes.REQUEST_FORBIDDEN,
+      )
+
+    // Filter what comes from the body
+    let filterBy = {}
+
+    // Restrict those with users roles from accessing users
+    // TEST: Looks like (req.params.userId) is wrongly implemented
+    if ((!req.params.tourId || req.params.userId) && req.user.role === 'user') {
+      throw new BadRequestException(
+        'You do not have necessary credentials to request this resource',
+        EExceptionStatusCodes.REQUEST_FORBIDDEN,
+      )
+    }
+
+    if (req.params.tourId) filterBy = { tour: req.params.tourId }
+    if (req.params.userId) filterBy = { user: req.params.userId }
+
+    // Set optional filter
+    req.optionalFilters = filterBy
+
+    // Next
+    next()
+  },
+)
+
 // CRUD HANDLERS
 /**
  * Basic CRUDS
