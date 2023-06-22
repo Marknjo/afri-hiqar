@@ -11,7 +11,6 @@ declare global {
       currentId?: string
       user?: IUser
       tourId?: string
-      userId?: string
     }
   }
 }

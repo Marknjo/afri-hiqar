@@ -35,7 +35,6 @@ export const isValidIdMiddleware = (
 
   // Assign tour Id to the request
   tourId && (req.tourId = id)
-  userId && (req.userId = id)
 
   next()
 }
