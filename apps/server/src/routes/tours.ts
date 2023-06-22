@@ -41,6 +41,9 @@ router
   .get(tour.getToursNearLocation)
 
 // Admin only routes
-router.route('/:tourId').patch(tour.updateTour).delete(tour.deleteTour)
+router
+  .route('/:tourId')
+  .patch(tour.updateTour)
+  .delete(tour.preTourDeletion, tour.deleteTour)
 
 export default router

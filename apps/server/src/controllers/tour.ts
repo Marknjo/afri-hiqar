@@ -1,6 +1,7 @@
 // SINGLE FEATURE HANDLERS
 
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
+import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
 import {
   EModelNames,
   TGenericRequestHandler,
@@ -12,7 +13,7 @@ import {
 import { deleteOne } from '@lib/modules/deleteOne'
 import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Tour from '@models/tourModel'
-import { ITour } from '@models/types'
+import { IReview, ITour } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { NextFunction, Request, Response } from 'express'
 
@@ -38,6 +39,30 @@ export const deleteTour = deleteOne<ITour>(Tour, { modelName: 'tour' })
 /**
  * MIDDLEWARES
  */
+/**
+ * Prevent deleting a tour if a tour has a review -> Prevent orphans reviews
+ */
+export const preTourDeletion: TGenericRequestHandler = asyncWrapper(
+  async (req, _res, next) => {
+    // find a tour by the delete id and populate reviews
+    const tour = await Tour.findById(req.params.tourId).populate<{
+      reviews: Array<IReview>
+    }>({
+      path: 'reviews',
+      select: 'review',
+    })
+
+    // Prevent delete if the tour has reviews
+    if (tour && tour.reviews.length > 0)
+      throw new ForbiddenRequestException(
+        `This tour has ${tour.reviews.length} reviews. Delete them before trying again.`,
+      )
+
+    // next
+    next()
+  },
+)
+
 //- Get Aliases - Pre get all custom filters
 
 /**
