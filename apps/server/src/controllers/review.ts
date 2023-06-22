@@ -8,8 +8,9 @@ import {
   getAll,
   getOne,
   updateOne,
-} from '@lib/modules'
-import { deleteOne } from '@lib/modules/deleteOne'
+  deleteOne,
+} from '@lib/modules/handlersFactory'
+
 import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Review from '@models/reviewModel'
 import { IReview } from '@models/types'
@@ -24,7 +25,7 @@ import { NextFunction, Request, Response } from 'express'
  * Check is the current user has the requested review
  */
 export const checkIfUserHasTheReview: TGenericRequestHandler = asyncWrapper(
-  async (req, _res, next) => {
+  async (req: Request, _res: Response, next: NextFunction) => {
     if (!req.user)
       throw new BadRequestException(
         'You do not have permission to access this route',
@@ -52,7 +53,7 @@ export const checkIfUserHasTheReview: TGenericRequestHandler = asyncWrapper(
  *  Filter get reviews
  */
 export const filterGetReviews: TGenericRequestHandler = asyncWrapper(
-  async (req, _res, next) => {
+  async (req: Request, _res: Response, next: NextFunction) => {
     if (!req.user)
       throw new BadRequestException(
         'You do not have permission to access this route',

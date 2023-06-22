@@ -9,8 +9,8 @@ import {
   getAll,
   getOne,
   updateOne,
-} from '@lib/modules'
-import { deleteOne } from '@lib/modules/deleteOne'
+  deleteOne,
+} from '@lib/modules/handlersFactory'
 import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Tour from '@models/tourModel'
 import { IReview, ITour } from '@models/types'
@@ -43,7 +43,7 @@ export const deleteTour = deleteOne<ITour>(Tour, { modelName: 'tour' })
  * Prevent deleting a tour if a tour has a review -> Prevent orphans reviews
  */
 export const preTourDeletion: TGenericRequestHandler = asyncWrapper(
-  async (req, _res, next) => {
+  async (req: Request, _res: Response, next: NextFunction) => {
     // find a tour by the delete id and populate reviews
     const tour = await Tour.findById(req.params.tourId).populate<{
       reviews: Array<IReview>
@@ -116,7 +116,7 @@ export const getTopRatedTours = (
  * Implement get Tour Stats Grouped By Difficulty
  */
 export const getToursStatsByDifficulty: TGenericRequestHandler = asyncWrapper(
-  async (_req, res, _next) => {
+  async (_req: Request, res: Response, _next: NextFunction) => {
     // Aggregation pipeline
     const stats = await Tour.aggregate([
       // Match by average rating
@@ -158,7 +158,7 @@ export const getToursStatsByDifficulty: TGenericRequestHandler = asyncWrapper(
  * Implement monthly plans for all tours within a given year
  */
 export const getMonthlyPlans: TGenericRequestHandler = asyncWrapper(
-  async (req, res, _next) => {
+  async (req: Request, res: Response, _next: NextFunction) => {
     // Get url params (Year)
     const year = req.params.year
     const isDigit = /^\d{4}$/.test(year)
@@ -219,7 +219,7 @@ export const getMonthlyPlans: TGenericRequestHandler = asyncWrapper(
  * given coordinates and the unit (miles/km)
  */
 export const getToursWithinARadius: TGenericRequestHandler = asyncWrapper(
-  async (req, res, _next) => {
+  async (req: Request, res: Response, _next: NextFunction) => {
     // Get Params -> distance, center [lat,lag], unit [mi/km]
     const { distance, latlng, unit } = req.params
 
@@ -280,7 +280,7 @@ export const getToursWithinARadius: TGenericRequestHandler = asyncWrapper(
  *
  */
 export const getToursNearLocation: TGenericRequestHandler = asyncWrapper(
-  async (req, res, _next) => {
+  async (req: Request, res: Response, _next: NextFunction) => {
     // get the longitude
     const { limit, latlng, unit } = req.params
 

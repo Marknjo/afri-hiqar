@@ -1,9 +1,15 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, createOne, getAll, getOne, updateOne } from '@lib/modules'
+import {
+  EModelNames,
+  createOne,
+  getAll,
+  getOne,
+  updateOne,
+  deleteOne,
+} from '@lib/modules/handlersFactory'
 import User from '@models/userModel'
 import { IUser } from '@models/types'
-import { deleteOne } from '@lib/modules/deleteOne'
 
 // CRUD HANDLERS
 /**
