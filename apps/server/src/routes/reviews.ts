@@ -8,6 +8,6 @@ const router: Router = Router()
  */
 router.route('/').get(review.getAllReviews).post(review.createReview)
 
-router.get('/:reviewId', review.getReview)
+router.route('/:reviewId').get(review.getReview).patch(review.updateReview)
 
 export default router

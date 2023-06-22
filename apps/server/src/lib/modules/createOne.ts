@@ -3,12 +3,7 @@ import { Query, Model as HandlerModel } from 'mongoose'
 
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
-import {
-  ICreateOneOptions,
-  TGenericRequest,
-  TGenericRequestAsync,
-  TRequestWithBody,
-} from './types'
+import { ICreateOneOptions, TGenericRequest } from './types'
 
 /**
  * Create one general handler method

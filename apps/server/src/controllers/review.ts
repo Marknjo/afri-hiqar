@@ -1,7 +1,6 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, getAll, getOne } from '@lib/modules'
-import { createOne } from '@lib/modules/createOne'
+import { EModelNames, createOne, getAll, getOne, updateOne } from '@lib/modules'
 import Review from '@models/reviewModel'
 import { IReview } from '@models/types'
 
@@ -19,3 +18,4 @@ export const getAllReviews = getAll<IReview>({
 export const getReview = getOne<IReview>(Review, { modelName: 'review' })
 
 export const createReview = createOne<IReview>(Review, { modelName: 'review' })
+export const updateReview = updateOne<IReview>(Review, { modelName: 'review' })

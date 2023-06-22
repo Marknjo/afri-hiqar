@@ -1,7 +1,6 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, getAll, getOne } from '@lib/modules'
-import { createOne } from '@lib/modules/createOne'
+import { EModelNames, createOne, getAll, getOne, updateOne } from '@lib/modules'
 import Tour from '@models/tourModel'
 import { ITour } from '@models/types'
 import { NextFunction, Request } from 'express'
@@ -23,3 +22,4 @@ export const getTour = getOne<ITour>(Tour, {
 })
 
 export const createTour = createOne<ITour>(Tour, { modelName: 'tour' })
+export const updateTour = updateOne<ITour>(Tour, { modelName: 'tour' })

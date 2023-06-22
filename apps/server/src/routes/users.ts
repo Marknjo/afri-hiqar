@@ -9,6 +9,6 @@ const router: Router = Router()
 router.route('/').get(user.getAllUsers).post(user.createUser)
 
 /// PROTECTED ROUTES
-router.get('/:userId', user.getUser)
+router.route('/:userId').get(user.getUser).patch(user.updateUser)
 
 export default router
