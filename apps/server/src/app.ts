@@ -2,6 +2,7 @@ import { env } from 'process'
 import { resolve } from 'path'
 import express, { Application } from 'express'
 import { logger } from '@config/logger.config'
+// import { randomBytes } from 'crypto'
 
 /// Local imports
 
@@ -16,6 +17,8 @@ import { NotFoundException } from '@lib/exceptions/NotFoundException'
 import globalExceptionHandler from '@lib/middlewares/global-exception-handler'
 
 const app: Application = express()
+
+// console.log(randomBytes(32).toString('hex'))
 
 /// setup
 const apiVersion = env.API_VERSION || 1

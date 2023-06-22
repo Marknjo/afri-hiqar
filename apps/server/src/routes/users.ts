@@ -1,5 +1,6 @@
-import * as user from '@controllers/user'
 import { Router } from 'express'
+import * as user from '@controllers/user'
+import * as auth from '@lib/modules/auth'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 
 const router: Router = Router()
@@ -13,6 +14,11 @@ router.param('userId', isValidIdMiddleware)
 router.route('/').get(user.getAllUsers).post(user.createUser)
 
 /// PROTECTED ROUTES
+
+//- Auth
+router.post('/sign-up', auth.signup)
+
+//- CRUDS
 router
   .route('/:userId')
   .get(user.getUser)
