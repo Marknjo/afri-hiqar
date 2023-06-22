@@ -24,7 +24,11 @@ export const updateTour = updateOne<ITour>(Tour, { modelName: 'tour' })
 export const deleteTour = deleteOne<ITour>(Tour, { modelName: 'tour' })
 
 /// MIDDLEWARES
-//- Get Aliases
+//- Get Aliases - Pre get all custom filters
+
+/**
+ * Get top five Cheapest Tours - middleware filter
+ */
 export const getCheapestTours = (
   req: Request,
   _res: Response,
@@ -36,6 +40,27 @@ export const getCheapestTours = (
       'name,price,ratingsAverage,ratingsQuantity,duration,summary,difficulty,maxGroupSize',
   }
   const sort = { sort: 'price,ratingsAverage' }
+  const limitFields = { limit: '5' }
+
+  req.query = { ...fields, ...sort, ...limitFields }
+
+  next()
+}
+
+/**
+ * get top 5 Best rated tours - middleware filter
+ */
+export const getTopRatedTours = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  // construct query object
+  const fields = {
+    fields:
+      'name,price,ratingsAverage,ratingsQuantity,duration,summary,difficulty,maxGroupSize',
+  }
+  const sort = { sort: '-ratingsAverage,price' }
   const limitFields = { limit: '5' }
 
   req.query = { ...fields, ...sort, ...limitFields }

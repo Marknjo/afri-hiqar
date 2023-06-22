@@ -8,6 +8,7 @@ const router: Router = Router()
  */
 //- Aliases Routes
 router.get('/top-5-cheap-tours', tour.getCheapestTours, tour.getAllTours)
+router.get('/top-5-best-rated-tours', tour.getTopRatedTours, tour.getAllTours)
 
 /**
  * Get all tours
