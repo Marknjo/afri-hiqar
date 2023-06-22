@@ -1,12 +1,22 @@
 // SINGLE FEATURE HANDLERS
 
-import { EModelNames, createOne, getAll, getOne, updateOne } from '@lib/modules'
+import {
+  EModelNames,
+  TGenericRequestHandler,
+  createOne,
+  getAll,
+  getOne,
+  updateOne,
+} from '@lib/modules'
 import { deleteOne } from '@lib/modules/deleteOne'
 import Tour from '@models/tourModel'
 import { ITour } from '@models/types'
+import { asyncWrapper } from '@utils/handlerWrappers'
 import { NextFunction, Request, Response } from 'express'
 
-// BASIC CRUD HANDLERS
+/**
+ * BASIC CRUD HANDLERS
+ */
 export const getAllTours = getAll<ITour>({
   Model: Tour,
   options: {
@@ -23,7 +33,9 @@ export const createTour = createOne<ITour>(Tour, { modelName: 'tour' })
 export const updateTour = updateOne<ITour>(Tour, { modelName: 'tour' })
 export const deleteTour = deleteOne<ITour>(Tour, { modelName: 'tour' })
 
-/// MIDDLEWARES
+/**
+ * MIDDLEWARES
+ */
 //- Get Aliases - Pre get all custom filters
 
 /**
@@ -68,4 +80,48 @@ export const getTopRatedTours = (
   next()
 }
 
-/// ADVANCED QUERIES
+/**
+ * ADVANCED QUERIES
+ */
+/// AGGREGATORS HANDLERS
+/**
+ * Implement get Tour Stats Grouped By Difficulty
+ */
+export const getToursStatsByDifficulty: TGenericRequestHandler = asyncWrapper(
+  async (_req, res, _next) => {
+    // Aggregation pipeline
+    const stats = await Tour.aggregate([
+      // Match by average rating
+      {
+        $match: { ratingsAverage: { $gte: 4.5 } },
+      },
+
+      // Group by difficulty, avgPrice, maxPrice, minPrice, tQty, numTours
+      {
+        $group: {
+          _id: { $toUpper: '$difficulty' },
+          numTours: { $sum: 1 },
+          ratingsQty: { $sum: '$ratingsQuantity' },
+          avgRating: { $avg: '$ratingsAverage' },
+          maxPrice: { $max: '$price' },
+          minPrice: { $min: '$price' },
+          avgPrice: { $avg: '$price' },
+          tours: { $push: { id: '$_id', name: '$name', price: '$price' } },
+        },
+      },
+
+      // Sort by avgPrice
+      {
+        $sort: { avgPrice: -1 },
+      },
+    ])
+
+    // Response
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    })
+  },
+)
