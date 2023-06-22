@@ -37,25 +37,25 @@ export interface ICreateOneOptions {
   fileFieldName?: string
 }
 
-export type TGenericRequest = (
+export type TGenericRequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => Response | void
 
-export type TRequestWithBody<TParam, TBody> = (
+export type TRequestWithBodyHandler<TParam, TBody> = (
   req: Request<TParam, {}, TBody>,
   res: Response,
   next: NextFunction,
 ) => Response | void
 
-export type TGenericRequestAsync = (
+export type TGenericRequestAsyncHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => Promise<Response | void>
 
-export type TGenericRequestWithBodyAsync<TParam, TBody> = (
+export type TGenericRequestWithBodyAsyncHandler<TParam, TBody> = (
   req: Request<TParam, {}, TBody>,
   res: Response,
   next: NextFunction,

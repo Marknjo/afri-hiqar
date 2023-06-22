@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
-import { TGenericRequestAsync } from '@lib/modules'
+import { TGenericRequestAsyncHandler } from '@lib/modules'
 /**
  * Wraps client side handlers, not wrapped with catchAsync, so as to push 500 errors to the global error handlers. Ensures, app never crashes.
  * @param next middleware next function
@@ -34,7 +34,7 @@ export async function asyncHandlerWrapper<T>(
   }
 }
 
-export function asyncWrapper(fn: TGenericRequestAsync): RequestHandler {
+export function asyncWrapper(fn: TGenericRequestAsyncHandler): RequestHandler {
   return (req: Request, res: Response, next: NextFunction) => {
     fn(req as any, res, next).catch(next)
   }
