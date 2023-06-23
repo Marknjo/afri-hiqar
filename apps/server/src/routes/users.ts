@@ -18,6 +18,9 @@ router.post('/sign-up', auth.signup)
 router.post('/login', auth.login)
 router.get('/logout', auth.logout)
 
+// password reset & forget
+router.post('/forget-password', auth.forgetPassword)
+
 /**
  * PROTECTED ROUTES
  */
