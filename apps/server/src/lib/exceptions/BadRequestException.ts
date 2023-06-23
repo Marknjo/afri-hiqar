@@ -22,10 +22,9 @@ export class BadRequestException extends HttpExceptionFilter {
   serializeErrors(): TExceptionCollection {
     return [
       {
-        status:
-          this.statusCode !== EExceptionStatusCodes.BAD_REQUEST
-            ? EResStatus.ERROR
-            : EResStatus.FAILURE,
+        status: String(this.statusCode).includes('5')
+          ? EResStatus.ERROR
+          : EResStatus.FAILURE,
         statusCode: this.statusCode,
         data: {
           message: this.message,
