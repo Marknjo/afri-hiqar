@@ -20,6 +20,7 @@ router.get('/logout', auth.logout)
 
 // password reset & forget
 router.post('/forget-password', auth.forgetPassword)
+router.post('/reset-password/:token', auth.resetPassword)
 
 /**
  * PROTECTED ROUTES
