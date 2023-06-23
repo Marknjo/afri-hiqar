@@ -6,23 +6,24 @@ block content
   p Welcome to AfriHiqar, we're glad to have you 🎉🙏
   p We're all a big family here, so make sure to upload your profile photo so we get to know you a bit better!
   table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
-  tbody
-    tr
-      td(align='left')
-        table(role='presentation', border='0', cellpadding='0', cellspacing='0')
-          tbody
-            tr
-              td
-                - const baseUrl = url ? url : ""
-                a(href=`${baseUrl}/sys-admin/profile`, target='_blank') Upload user photo
-  tbody
+    tbody
       tr
         td(align='left')
           table(role='presentation', border='0', cellpadding='0', cellspacing='0')
             tbody
               tr
                 td
-                  p If you need any help with booking your next tour, please don't hesitate to contact me!
-                  p Cheer!
-                  p Yours truly CEO AfriHiqar,
-                  p Mark Njoroge
+                  - const baseUrl = url ? url : ""
+                  a(href=`${baseUrl}/sys-admin/profile`, target='_blank') Upload user photo
+  table
+    tbody
+        tr
+          td(align='left')
+            table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+              tbody
+                tr
+                  td
+                    p If you need any help with booking your next tour, please don't hesitate to contact me!
+                    p Cheer!
+                    p Yours truly CEO AfriHiqar,
+                    p Mark Njoroge
