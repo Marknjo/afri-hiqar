@@ -4,6 +4,8 @@ export interface ISignTokenAndSendResponseOptions {
   user: Partial<IUser>
   remember: boolean
   message?: string
+  invalidateToken?: boolean
+  resWithoutUser?: boolean
 }
 
 export type TFilteredRequiredFields = Pick<

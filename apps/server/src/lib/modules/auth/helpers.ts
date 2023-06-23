@@ -15,7 +15,11 @@ import { ISignTokenAndSendResponseOptions } from './types'
  * @param id user id
  * @param remember sets user to remember user for 1 week
  */
-const signJWTtoken = (id: string, remember: boolean) => {
+const signJWTtoken = (
+  id: string,
+  remember: boolean,
+  invalidateToken: boolean,
+) => {
   const jwtSecret = env.JWT_SECRET
   const jwtExpiresInADay = env.JWT_EXPIRES_IN_WEEK
   const jwtExpiresInAWeek = env.JWT_EXPIRES_IN_DAY
@@ -24,11 +28,19 @@ const signJWTtoken = (id: string, remember: boolean) => {
   if (!jwtExpiresInADay || !jwtExpiresInAWeek)
     throw new BadRequestException('JWT_EXPIRES_IN not set', 500)
 
+  let expiresIn: number | string
+
+  if (invalidateToken) {
+    expiresIn = '-5m'
+  } else {
+    expiresIn = remember ? jwtExpiresInAWeek : jwtExpiresInADay
+  }
+
   return promisify<string | Buffer | object, string, jwt.SignOptions>(jwt.sign)(
     { id },
     jwtSecret,
     {
-      expiresIn: remember ? jwtExpiresInADay : env.JWT_EXPIRES_IN_DAY,
+      expiresIn,
     },
   )
 }
@@ -60,7 +72,11 @@ export const signTokenAndSendResponse = async (
     let { user, remember } = options
 
     // Sign Token
-    const jwtToken = await signJWTtoken(user.id, remember)
+    const jwtToken = await signJWTtoken(
+      user.id,
+      remember,
+      !!options.invalidateToken,
+    )
 
     // Add token to cookie response
     //setJwtCookie(req, res, jwtToken, { allowRemember: true, remember });
@@ -77,14 +93,19 @@ export const signTokenAndSendResponse = async (
     user.passwordUpdatedAt = undefined
     //user.email = undefined;
 
+    // Prep response data
+    const data = {
+      data: {
+        user,
+      },
+    }
+
     // Send response
     res.status(200).json({
       status: 'success',
       token: jwtToken,
       ...(options.message ? { message: options.message } : {}),
-      data: {
-        user,
-      },
+      ...(options.resWithoutUser ? {} : data),
     })
   } catch (error) {
     throw error
