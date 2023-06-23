@@ -19,8 +19,6 @@ export const resetPassword: TGenericRequestHandler = asyncWrapper(
     // Get user reset token
     const { token } = req.params
 
-    console.log({ password, passwordConfirm, token })
-
     if (!password || !passwordConfirm || !token)
       throw new BadRequestException(
         'Password reset requires a new password, a password confirmation, and a reset token. Please ensure all three are provided before sending a new request!',

@@ -16,7 +16,6 @@ router.param('userId', isValidIdMiddleware)
 //- Auth
 router.post('/sign-up', auth.signup)
 router.post('/login', auth.login)
-router.get('/logout', auth.logout)
 
 // password reset & forget
 router.post('/forget-password', auth.forgetPassword)
@@ -27,7 +26,13 @@ router.post('/reset-password/:token', auth.resetPassword)
  */
 router.use(auth.protect)
 
-//- Auth
+// @NOTE: Only logout login user
+router.get('/logout', auth.logout)
+
+//- Login user routes
+router.get('/me', user.getMe, user.getUser)
+
+//- Admin Only
 router.use(auth.restrictTo(UserRoles.ADMIN))
 router.route('/').get(user.getAllUsers).post(user.createUser)
 

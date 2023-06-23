@@ -1,5 +1,6 @@
 // SINGLE FEATURE HANDLERS
 
+import { NextFunction, Request, Response } from 'express'
 import {
   EModelNames,
   createOne,
@@ -13,7 +14,20 @@ import { IUser } from '@models/types'
 
 // CRUD HANDLERS
 /**
- * Get All Users
+ * Login In User Routes
+ */
+
+/// Get my profile
+export const getMe = (req: Request, _res: Response, next: NextFunction) => {
+  // Auto set id from the request
+  req.currentId = req.user!.id
+
+  // next
+  next()
+}
+
+/**
+ * Admin Only Routes
  */
 export const getAllUsers = getAll<IUser>({
   Model: User,
