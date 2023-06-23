@@ -13,11 +13,14 @@ router.param('userId', isValidIdMiddleware)
  */
 router.route('/').get(user.getAllUsers).post(user.createUser)
 
-/// PROTECTED ROUTES
-
 //- Auth
 router.post('/sign-up', auth.signup)
 router.post('/login', auth.login)
+router.get('/logout', auth.logout)
+
+/// PROTECTED ROUTES
+
+//- Auth
 
 //- CRUDS
 router

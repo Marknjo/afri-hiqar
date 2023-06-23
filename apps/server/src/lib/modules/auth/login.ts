@@ -48,5 +48,6 @@ export const login: TGenericRequestHandler = asyncWrapper(async (req, res) => {
   await signTokenAndSendResponse(req, res, {
     user: foundUser,
     remember: rememberUser,
+    message: 'You have successfully logged in. Welcome to AfriHiqar Again.',
   })
 })

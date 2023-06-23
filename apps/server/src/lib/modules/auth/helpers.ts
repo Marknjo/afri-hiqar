@@ -81,6 +81,7 @@ export const signTokenAndSendResponse = async (
     res.status(200).json({
       status: 'success',
       token: jwtToken,
+      ...(options.message ? { message: options.message } : {}),
       data: {
         user,
       },

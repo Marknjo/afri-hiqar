@@ -3,6 +3,7 @@ import { IUser } from '@models/types'
 export interface ISignTokenAndSendResponseOptions {
   user: Partial<IUser>
   remember: boolean
+  message?: string
 }
 
 export type TFilteredRequiredFields = Pick<
