@@ -42,6 +42,19 @@ const invalidMongoIdFormatHandler = (
   return new BadRequestException(message, 400)
 }
 
+/**
+ * Handle Duplicate Key error message
+ * @param err
+ * @returns
+ */
+const duplicateUniqueIdErrorHandler = (
+  err: mongoose.SyncIndexesError | any,
+) => {
+  const duplicateKey = err.keyValue.name
+  const message = `Duplicate entry field detected (${duplicateKey}). Please use a unique name.`
+  return new BadRequestException(message, 400)
+}
+
 export default (
   err: Error,
   _req: Request,
@@ -51,7 +64,8 @@ export default (
   >,
   next: NextFunction,
 ) => {
-  console.log({ error: err.name })
+  /* @ts-ignore */
+  console.log({ error: err.name, ...err })
 
   // Handler JWT Common errors
   if (err.name === 'TokenExpiredError') err = jwtTokenExpiredHandler()
@@ -60,6 +74,10 @@ export default (
   /// handler mongo/mongoose errors
   if (err.name === 'CastError')
     err = invalidMongoIdFormatHandler(err as mongoose.CastError)
+
+  /* @ts-ignore */
+  if (err.code === 11000)
+    err = duplicateUniqueIdErrorHandler(err as mongoose.SyncIndexesError | any)
 
   /// handle all errors except 500 types of errors
   if (
