@@ -23,6 +23,7 @@
  */
 // import path from 'path'
 import { resolve } from 'path'
+import { existsSync } from 'fs'
 import { env } from 'process'
 import { createTransport } from 'nodemailer'
 import { renderFile } from 'pug'
@@ -37,6 +38,7 @@ interface IEmailOptions {
   subject?: string
   recipient?: { email: string; name: string }
   message?: string
+  payload?: { [key: string]: any }
 }
 
 class Email {
@@ -51,6 +53,8 @@ class Email {
   subject: string | boolean
 
   url: string | boolean
+
+  payload: { [key: string]: any }
 
   /**
    * Initialize email options
@@ -81,6 +85,9 @@ class Email {
 
     // Initialize subject
     this.subject = options.subject ? options.subject : false
+
+    /// set additional unknown payload data
+    this.payload = options.payload ? options.payload : {}
 
     // Initialize url
     this.url = options.url ? options.url : false
@@ -153,42 +160,53 @@ class Email {
    * @param template Template name for pug html
    */
   async send(subject: string, template: string) {
-    const transport = this.buildTransport()
-
-    if (!transport) return
-
-    /// Prep template url path
-    const templateUrl = resolve(
-      process.cwd(),
-      'src',
-      'views',
-      `emails/${template}.pug`,
-    )
-
-    /// load local email template from a pug file
-    let html: string
     try {
-      html = renderFile(templateUrl, {
-        ...(this.recipientName ? { name: this.recipientName } : {}),
-        ...(this.url ? { url: this.url } : {}),
-        ...(this.message ? { message: this.message } : {}),
-      } as { name?: string; url?: string; message?: string })
-    } catch (error: unknown) {
-      const err = error as Error
-      throw new BadRequestException(err.message.replace(/Error: /, ''), 500)
-    }
+      const transport = this.buildTransport()
 
-    // Prep email Options
-    const mailOptions = {
-      from: this.from,
-      to: this.to,
-      subject,
-      html,
-      text: htmlToText(html),
-    }
+      if (!transport) return
 
-    // Send Email
-    await transport.sendMail(mailOptions as Mail.Options)
+      /// Prep template url path
+      const templateUrl = resolve(
+        process.cwd(),
+        'src',
+        'views',
+        `emails/${template}.pug`,
+      )
+
+      if (!existsSync(templateUrl))
+        throw new BadRequestException(
+          `Server Error: Could not load email template for ${template}`,
+          500,
+        )
+
+      /// load local email template from a pug file
+      let html: string
+      try {
+        html = renderFile(templateUrl, {
+          ...(this.recipientName ? { name: this.recipientName } : {}),
+          ...(this.url ? { url: this.url } : {}),
+          ...(this.message ? { message: this.message } : {}),
+          ...this.payload,
+        } as { name?: string; url?: string; message?: string })
+      } catch (error: unknown) {
+        const err = error as Error
+        throw new BadRequestException(err.message.replace(/Error: /, ''), 500)
+      }
+
+      // Prep email Options
+      const mailOptions = {
+        from: this.from,
+        to: this.to,
+        subject,
+        html,
+        text: htmlToText(html),
+      }
+
+      // Send Email
+      await transport.sendMail(mailOptions as Mail.Options)
+    } catch (error) {
+      throw error
+    }
   }
 
   /**
@@ -227,9 +245,9 @@ class Email {
     // set subject
     const setSubject = this.subject
       ? (this.subject as string)
-      : 'Account Password Reset Request (⏰ expires in 10 minutes)'
+      : 'Request For Account Password Reset (⏰ expires in 10 minutes)'
 
-    await this.send(setSubject, 'confirmAccount')
+    await this.send(setSubject, 'passwordResetEmail')
     return this
   }
 
