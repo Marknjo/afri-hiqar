@@ -1,12 +1,14 @@
 import { env } from 'process'
 import { resolve } from 'path'
-import express, { Application } from 'express'
-import { logger } from '@config/logger.config'
 // import { randomBytes } from 'crypto'
+
+import express, { Application } from 'express'
+import cookieParser from 'cookie-parser'
 
 /// Local imports
 
 // Routes
+import { logger } from '@config/logger.config'
 import bookingsRouter from '@routes/bookings'
 import mediaRouter from '@routes/media'
 import reviewsRouter from '@routes/reviews'
@@ -35,6 +37,7 @@ logger(app)
 
 /// Configs
 app.use(express.json({ limit: '10kb' }))
+app.use(cookieParser())
 
 /// performance
 
