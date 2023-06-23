@@ -67,7 +67,7 @@ export interface ITour extends Document {
 export interface IUser extends Document {
   name: string
   email: string
-  role: string
+  role: Array<UserRoles> | string
   active: boolean
   accountConfirmed: boolean
   photo: string
@@ -76,4 +76,12 @@ export interface IUser extends Document {
   passwordUpdatedAt: number
   passwordResetToken: string
   passwordResetTokenExpiresIn: string
+}
+
+export enum UserRoles {
+  ADMIN = 'admin',
+  LEAD_GUIDE = 'lead-guide',
+  GUIDE = 'guide',
+  USER = 'user',
+  GUEST = 'guest',
 }

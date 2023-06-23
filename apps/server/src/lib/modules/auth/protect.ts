@@ -40,7 +40,7 @@ export const protect: TGenericRequestHandler = asyncWrapper(
       env.JWT_SECRET!,
     )) as unknown as jwt.JwtPayload
 
-    const { userId, iat } = jwtRes
+    const { id: userId, iat } = jwtRes
 
     // Find user by user id and verify
     // @TODO: implement prevent access of routes if user account is not activated after 24 hours of registering the account.
@@ -48,14 +48,20 @@ export const protect: TGenericRequestHandler = asyncWrapper(
 
     if (!foundUser || !foundUser.active)
       throw new ForbiddenRequestException(
-        'We could not verify your identity. Please login with valid credentials to access requested resource.',
+        'Access to this resource denied. We could not verify your credentials. Please login again.',
+      )
+
+    if (!foundUser.accountConfirmed)
+      throw new ForbiddenRequestException(
+        'Looks like you are trying to access this resource account unverified credentials. Please check your email to verify your for verification.',
       )
 
     // Compare time token was created and now
-    const isSessionExpired =
-      await foundUser.checkPasswordWasChangedAfterTokenIssue(iat!)
+    const isValidSession = foundUser.checkPasswordWasChangedAfterTokenIssue(
+      iat!,
+    )
 
-    if (!isSessionExpired)
+    if (!isValidSession)
       throw new ForbiddenRequestException(
         'Your session has expired. Please login again.',
       )

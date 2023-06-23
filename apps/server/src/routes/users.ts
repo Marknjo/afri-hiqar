@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as user from '@controllers/user'
 import * as auth from '@lib/modules/auth'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
+import { UserRoles } from '@models/types'
 
 const router: Router = Router()
 
@@ -23,6 +24,7 @@ router.get('/logout', auth.logout)
 router.use(auth.protect)
 
 //- Auth
+router.use(auth.restrictTo(UserRoles.ADMIN))
 router.route('/').get(user.getAllUsers).post(user.createUser)
 
 //- CRUDS
