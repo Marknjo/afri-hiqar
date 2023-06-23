@@ -17,6 +17,7 @@ router.route('/').get(user.getAllUsers).post(user.createUser)
 
 //- Auth
 router.post('/sign-up', auth.signup)
+router.post('/login', auth.login)
 
 //- CRUDS
 router

@@ -1,6 +1,7 @@
 import { Response } from 'express'
 
 export enum EExceptionStatusCodes {
+  REQUEST_UNAUTHORIZED = 401,
   REQUEST_NOT_ACCEPTABLE = 406,
   REQUEST_FORBIDDEN = 403,
   BAD_REQUEST = 400,
