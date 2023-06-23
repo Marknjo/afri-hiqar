@@ -25,8 +25,10 @@
   "dependencies": {
     "@mj/eslint-config": "workspace:*",
     "@mj/tsconfig": "workspace:*",
+    "@types/cookie-parser": "^1.4.3",
     "@types/morgan": "^1.9.4",
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "html-to-text": "^9.0.5",
     "jsonwebtoken": "^9.0.0",
