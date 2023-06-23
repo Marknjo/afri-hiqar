@@ -18,6 +18,7 @@ const { isEmail } = pkg
 interface IUserMethods extends Model<IUser> {
   comparePassword(password: string, hashedPassword: string): Promise<boolean>
   checkPasswordWasChangedAfterTokenIssue(tokenWasIssuedAt: number): boolean
+  createPasswordResetToken(): string
 }
 
 interface IUserModel extends Model<IUser, {}, IUserMethods> {
