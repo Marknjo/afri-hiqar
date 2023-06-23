@@ -16,7 +16,7 @@ import toursRouter from '@routes/tours'
 import usersRouter from '@routes/users'
 import { EResStatus, TJsonRes } from '@lib/types/JsonRes'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
-import globalExceptionHandler from '@lib/middlewares/global-exception-handler'
+import globalExceptionHandler from '@lib/middlewares/globalExceptionHandler'
 
 const app: Application = express()
 
