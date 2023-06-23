@@ -12,7 +12,6 @@ import mongoose from 'mongoose'
 
 /**
  * Handles a broken JWT token
- * @returns
  */
 const jwtTokenMalformedHandler = () => {
   // @TODO: A good place to implement serious login messages, and throttling and burning of the IP trying to access the resource.
@@ -22,7 +21,6 @@ const jwtTokenMalformedHandler = () => {
 
 /**
  * Handle expired JWT token Error
- * @returns Object of error message
  */
 const jwtTokenExpiredHandler = () => {
   const message = `Your login session has expired. Please login again to access the route.`
@@ -32,7 +30,6 @@ const jwtTokenExpiredHandler = () => {
 /**
  * Mongoose Cast Error
  * @param err expected to be a mongoose error instance
- * @returns
  */
 const invalidMongoIdFormatHandler = (
   err: mongoose.CastError,
@@ -44,14 +41,26 @@ const invalidMongoIdFormatHandler = (
 
 /**
  * Handle Duplicate Key error message
- * @param err
- * @returns
  */
 const duplicateUniqueIdErrorHandler = (
   err: mongoose.SyncIndexesError | any,
 ) => {
   const duplicateKey = err.keyValue.name
   const message = `Duplicate entry field detected (${duplicateKey}). Please use a unique name.`
+  return new BadRequestException(message, 400)
+}
+
+/**
+ * Mongoose validation errors handler
+ */
+const mongooseValidationErrorsHandler = (
+  err: mongoose.Error.ValidationError,
+) => {
+  const errMessages = Object.values(err.errors)
+    .map(er => `${er.path}-${er.message}`)
+    .join('\n ')
+
+  const message = `Input field error(s)\n ${errMessages}`
   return new BadRequestException(message, 400)
 }
 
@@ -64,8 +73,8 @@ export default (
   >,
   next: NextFunction,
 ) => {
-  /* @ts-ignore */
-  console.log({ error: err.name, ...err })
+  /// log all errors to the console if it is dev
+  isDev && console.log(err)
 
   // Handler JWT Common errors
   if (err.name === 'TokenExpiredError') err = jwtTokenExpiredHandler()
@@ -75,9 +84,13 @@ export default (
   if (err.name === 'CastError')
     err = invalidMongoIdFormatHandler(err as mongoose.CastError)
 
-  /* @ts-ignore */
+  /* @ts-ignore @HACK: Find a fix */
   if (err.code === 11000)
-    err = duplicateUniqueIdErrorHandler(err as mongoose.SyncIndexesError | any)
+    err = duplicateUniqueIdErrorHandler(err as mongoose.Error.SyncIndexesError)
+
+  // Handle Validation Errors
+  if (err.name === 'ValidationError')
+    err = mongooseValidationErrorsHandler(err as mongoose.Error.ValidationError)
 
   /// handle all errors except 500 types of errors
   if (
