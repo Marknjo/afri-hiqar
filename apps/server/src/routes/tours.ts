@@ -1,3 +1,4 @@
+import * as auth from '@lib/modules/auth'
 import * as tour from '@controllers/tour'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { Router } from 'express'
@@ -24,6 +25,8 @@ router.route('/:tourId').get(tour.getTour)
 /**
  * Protected Routes
  */
+
+router.use(auth.protect)
 
 // Get tours statics by difficult level (prices, averageRatings e.t.c) - Restrict to admin/lead-guide/login users
 router.route('/tour-stats-by-difficulty').get(tour.getToursStatsByDifficulty)
