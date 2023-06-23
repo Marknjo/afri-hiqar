@@ -8,6 +8,7 @@ import {
 } from '@lib/types/JsonRes'
 import { isDev, isProd } from '@utils/env'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
+import mongoose from 'mongoose'
 
 /**
  * Handles a broken JWT token
@@ -28,6 +29,19 @@ const jwtTokenExpiredHandler = () => {
   return new BadRequestException(message, 401)
 }
 
+/**
+ * Mongoose Cast Error
+ * @param err expected to be a mongoose error instance
+ * @returns
+ */
+const invalidMongoIdFormatHandler = (
+  err: mongoose.CastError,
+): HttpExceptionFilter => {
+  const message = `Received an invalid id format: ${err.value}`
+
+  return new BadRequestException(message, 400)
+}
+
 export default (
   err: Error,
   _req: Request,
@@ -43,8 +57,11 @@ export default (
   if (err.name === 'TokenExpiredError') err = jwtTokenExpiredHandler()
   if (err.name === 'JsonWebTokenError') err = jwtTokenMalformedHandler()
 
-  /// handle all errors except 500 types of errors
+  /// handler mongo/mongoose errors
+  if (err.name === 'CastError')
+    err = invalidMongoIdFormatHandler(err as mongoose.CastError)
 
+  /// handle all errors except 500 types of errors
   if (
     err instanceof HttpExceptionFilter &&
     ((isProd && !String(err.statusCode).includes('5')) || isDev)
