@@ -15,13 +15,14 @@ import { IUser } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
+import { signTokenAndSendResponse } from '@lib/modules/auth/helpers'
 
 // CRUD HANDLERS
 /**
  * Login In User CRUDS
  */
 
-/// Get my profile
+//- Get my profile
 export const getMe = (req: Request, _res: Response, next: NextFunction) => {
   // Auto set id from the request
   req.currentId = req.user!.id
@@ -30,14 +31,13 @@ export const getMe = (req: Request, _res: Response, next: NextFunction) => {
   next()
 }
 
-// Update self
+//- Update self
 export const updateMe: TGenericRequestHandler = asyncWrapper(
   async (req, res) => {
     // Prevent updating user passwords using this method
     if (req.body.password || req.body.passwordConfirm)
       throw new BadRequestException(
         'Please use update my password section instead.',
-        400,
       )
 
     // Get user data from the body
@@ -75,6 +75,47 @@ export const updateMe: TGenericRequestHandler = asyncWrapper(
     })
   },
 )
+
+//- Update my password
+export const updateMyPassword: TGenericRequestHandler = asyncWrapper(
+  async (req, res) => {
+    // Check if user has supplied password
+    const { password, passwordConfirm, passwordCurrent, remember } = req.body
+
+    if (!password && !passwordConfirm && !passwordCurrent)
+      throw new BadRequestException(
+        'Please provide your current password and your new password',
+      )
+
+    // Find user by the ID
+    const foundUser = (await User.findById(req.user!.id).select('+password'))!
+
+    // compared password
+    const passwordCompare = await foundUser.comparePassword(
+      passwordCurrent,
+      foundUser.password,
+    )
+
+    if (!passwordCompare)
+      throw new BadRequestException(
+        'Current Password input field failed! Enter a valid current password.',
+      )
+
+    // Save user info
+    foundUser.password = password
+    foundUser.passwordConfirm = passwordConfirm
+
+    await foundUser.save()
+
+    // Update user password -> signTokenAndReturn response;
+    signTokenAndSendResponse(req, res, {
+      user: foundUser,
+      message: 'Your password update was successful',
+      remember: !!remember,
+    })
+  },
+)
+
 /**
  * Admin Only Routes
  */

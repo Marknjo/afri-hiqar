@@ -32,6 +32,7 @@ router.get('/logout', auth.logout)
 //- Login user routes
 router.get('/me', user.getMe, user.getUser)
 router.patch('/update-me', user.updateMe)
+router.patch('/update-password', user.updateMyPassword)
 
 //- Admin Only
 router.use(auth.restrictTo(UserRoles.ADMIN))
