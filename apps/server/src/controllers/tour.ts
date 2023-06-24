@@ -1,7 +1,9 @@
 // SINGLE FEATURE HANDLERS
+import { env } from 'process'
 
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
+import { NotFoundException } from '@lib/exceptions/NotFoundException'
 import {
   EModelNames,
   TGenericRequestHandler,
@@ -110,6 +112,45 @@ export const getTopRatedTours = (
 /**
  * ADVANCED QUERIES
  */
+
+/// Custom Queries
+
+/**
+ * Get A Tour Page Handler
+ */
+export const getTourBySlug: TGenericRequestHandler = asyncWrapper(
+  async (req, res) => {
+    // Get tour slug
+    const slug = req.params.slug
+
+    // Find tour by slug
+    const tour = await Tour.findOne({ slug }).populate({
+      path: 'reviews',
+      select: 'review rating updatedAt',
+    })
+
+    // Handle not found tour
+    if (!tour) {
+      const title = slug.split('-').join(' ')
+      throw new NotFoundException(
+        `Tour ${title.charAt(0).toLocaleUpperCase()}${title.slice(
+          1,
+        )} not found in collection`,
+      )
+    }
+
+    // Render overview page
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour,
+        mapboxKey: env.MAPBOX_KEY,
+        stripePublicKey: env.STRIPE_PUBLIC_KEY,
+      },
+    })
+  },
+)
+
 /// AGGREGATORS HANDLERS
 
 /**

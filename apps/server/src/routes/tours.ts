@@ -1,12 +1,15 @@
+import { Router } from 'express'
 import * as auth from '@lib/modules/auth'
 import * as tour from '@controllers/tour'
+import reviewsRouter from './reviews'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
-import { Router } from 'express'
 
 const router: Router = Router()
 
 // middlewares
 router.param('tourId', isValidIdMiddleware)
+
+router.use('/:tourId/reviews', reviewsRouter)
 
 /**
  * Public Routes
@@ -18,8 +21,9 @@ router.get('/top-5-best-rated-tours', tour.getTopRatedTours, tour.getAllTours)
 
 // Get all tours
 router.route('/').get(tour.getAllTours).post(tour.createTour)
+router.get('/:slug', tour.getTourBySlug)
 
-// @TODO: Get a single tour by id | Slug
+// Get a single tour by id | Slug
 router.route('/:tourId').get(tour.getTour)
 
 /**
