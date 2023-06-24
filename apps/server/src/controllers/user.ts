@@ -17,23 +17,9 @@ import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
 import { signTokenAndSendResponse } from '@lib/modules/auth/helpers'
 
-// CRUD HANDLERS
-/**
- * Login In User CRUDS
- */
-
-//- Get my profile
-export const getMe = (req: Request, _res: Response, next: NextFunction) => {
-  // Auto set id from the request
-  req.currentId = req.user!.id
-
-  // next
-  next()
-}
-
-//- Update self
-export const updateMe: TGenericRequestHandler = asyncWrapper(
-  async (req, res) => {
+/// MIDDLEWARES
+export const updateUserMiddleware: TGenericRequestHandler = asyncWrapper(
+  async (req, _res, next) => {
     // Prevent updating user passwords using this method
     if (req.body.password || req.body.passwordConfirm)
       throw new BadRequestException(
@@ -65,16 +51,39 @@ export const updateMe: TGenericRequestHandler = asyncWrapper(
         500,
       )
 
+    /// update user data in the request
+    req.user = user
+
     // Return success message
-    res.status(200).json({
-      status: 'success',
-      message: 'Your account has been successfully updated',
-      data: {
-        user,
-      },
-    })
+    next()
   },
 )
+
+// CRUD HANDLERS
+/**
+ * Login In User CRUDS
+ */
+
+//- Get my profile
+export const getMe = (req: Request, _res: Response, next: NextFunction) => {
+  // Auto set id from the request
+  req.currentId = req.user!.id
+
+  // next
+  next()
+}
+
+//- Update self
+export const updateMe = (req: Request, res: Response) => {
+  // Return success message
+  res.status(200).json({
+    status: 'success',
+    message: 'Your account has been successfully updated',
+    data: {
+      user: req.user!,
+    },
+  })
+}
 
 //- Update my password
 export const updateMyPassword: TGenericRequestHandler = asyncWrapper(
@@ -115,6 +124,27 @@ export const updateMyPassword: TGenericRequestHandler = asyncWrapper(
     })
   },
 )
+
+// - Delete my account
+export const deleteMe = (req: Request, res: Response, next: NextFunction) => {
+  // Set active to false in the body
+  req.body.active = false
+
+  // Return next
+  next()
+}
+
+export const deleteMeResponse = (req: Request, res: Response) => {
+  // Return next
+  signTokenAndSendResponse(req, res, {
+    user: req.user!,
+    message:
+      "We regret to see you go 😔. In a moment you'll be directed to the home page",
+    remember: false,
+    invalidateToken: true,
+    resWithoutUser: true,
+  })
+}
 
 /**
  * Admin Only Routes
