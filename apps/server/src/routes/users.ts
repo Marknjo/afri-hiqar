@@ -32,7 +32,13 @@ router.route('/confirm-account').patch(user.confirmAccount)
 
 //- Login user routes
 router.get('/me', user.getMe, user.getUser)
-router.patch('/update-me', user.updateUserMiddleware, user.updateMe)
+router.patch(
+  '/update-me',
+  user.uploadProfilePhoto,
+  user.resizeProfilePhoto,
+  user.updateUserMiddleware,
+  user.updateMe,
+)
 router.patch('/update-password', user.updateMyPassword)
 router.delete(
   '/delete-me',

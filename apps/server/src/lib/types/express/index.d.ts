@@ -11,6 +11,7 @@ declare global {
       currentId?: string
       user?: IUser
       tourId?: string
+      filename?: string
     }
   }
 }

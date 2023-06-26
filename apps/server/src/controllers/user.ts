@@ -23,8 +23,77 @@ import Email from '@lib/modules/email/emailsHandler'
 import { isDev } from '@utils/env'
 
 /// Image manipulation/upload
+// Create Multer memory storage
+const storage = multer.memoryStorage()
+
+// filter file type
+const filterFileType = (
+  _req: Request,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) => {
+  // Should only accept images
+  if (!file.mimetype.startsWith('image'))
+    return cb(new BadRequestException('File format not supported!'))
+
+  // File acceptable
+  cb(null, true)
+}
+
+/// create Upload
+const upload = multer({
+  storage,
+  fileFilter: filterFileType,
+})
 
 /// MIDDLEWARES
+/**
+ * Multer Handle single image Upload of user profile
+ */
+export const uploadProfilePhoto: TGenericRequestHandler = upload.single('photo')
+
+/**
+ * Resize user profile image (500 by 500) middleware
+ *
+ * Must come immediately after the file upload
+ */
+export const resizeProfilePhoto: TGenericRequestHandler = asyncWrapper(
+  async (req, _res, next) => {
+    // check if file exists
+    if (!req.file) return next()
+
+    // get the file
+    const bufferPhoto = req.file.buffer
+
+    // Create the file naming convection
+    const filename = `${req.user!.id}-${Date.now()}.jpg`
+
+    try {
+      await sharp(bufferPhoto)
+        .resize(500, 500)
+        .webp({ quality: 90 })
+        .toFormat('webp')
+        .toFile(`public/images/users/${filename}`)
+    } catch (error) {
+      throw new BadRequestException(
+        'Profile image upload filed, please try again',
+        500,
+      )
+    }
+
+    // Success
+    // Attach filename to the request
+    req.filename = filename
+
+    // Next
+    return next()
+  },
+)
+
+/**
+ * Middleware that allows reusability of user update
+ * feature without returning a substantive response
+ */
 export const updateUserMiddleware: TGenericRequestHandler = asyncWrapper(
   async (req, _res, next) => {
     // Prevent updating user passwords using this method
@@ -44,7 +113,7 @@ export const updateUserMiddleware: TGenericRequestHandler = asyncWrapper(
 
     // Check if user has submitted their photo -> then upload
     // @TODO: Implement uploading user photo
-    //if (req.file) filteredUserData.photo = req.filename;
+    if (req.file) filteredUserData.photo = req.filename!
 
     // update user details
     const user = await User.findByIdAndUpdate(req.user!.id, filteredUserData, {
@@ -66,11 +135,11 @@ export const updateUserMiddleware: TGenericRequestHandler = asyncWrapper(
   },
 )
 
-// CRUD HANDLERS
 /**
- * Login In User CRUDS
+ *
+ * CRUD HANDLERS
+ *
  */
-
 //- Get my profile
 export const getMe = (req: Request, _res: Response, next: NextFunction) => {
   // Auto set id from the request
