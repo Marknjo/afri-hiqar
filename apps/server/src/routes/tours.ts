@@ -3,6 +3,7 @@ import * as auth from '@lib/modules/auth'
 import * as tour from '@controllers/tour'
 import reviewsRouter from './reviews'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
+import { EUserRoles } from '@models/types'
 
 const router: Router = Router()
 
@@ -20,9 +21,9 @@ router.get('/top-5-cheap-tours', tour.getCheapestTours, tour.getAllTours)
 router.get('/top-5-best-rated-tours', tour.getTopRatedTours, tour.getAllTours)
 
 // Get all tours
-router.route('/').get(tour.getAllTours).post(tour.createTour)
-
+router.route('/').get(tour.getAllTours)
 router.get('/:slug', tour.getTourBySlug)
+
 // Get a single tour by id | Slug
 router.route('/:tourId').get(tour.getTour)
 
@@ -48,9 +49,18 @@ router
   .get(tour.getToursNearLocation)
 
 // Admin only routes
+router.use(auth.restrictTo(EUserRoles.ADMIN, EUserRoles.LEAD_GUIDE))
+
+router.post(
+  '/',
+  tour.uploadTourImages,
+  tour.resizeImageUploads,
+  tour.createTour,
+)
+
 router
   .route('/:tourId')
-  .patch(tour.updateTour)
+  .patch(tour.uploadTourImages, tour.resizeImageUploads, tour.updateTour)
   .delete(tour.preTourDeletion, tour.deleteTour)
 
 export default router

@@ -1,6 +1,11 @@
 // SINGLE FEATURE HANDLERS
 import { env } from 'process'
 
+import { NextFunction, Request, Response } from 'express'
+import mongoose from 'mongoose'
+import multer from 'multer'
+import sharp from 'sharp'
+
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
@@ -17,8 +22,110 @@ import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Tour from '@models/tourModel'
 import { IReview, ITour } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
-import { NextFunction, Request, Response } from 'express'
-import mongoose from 'mongoose'
+
+/**
+ * Handle Tour Images upload
+ */
+
+//- Create memory storage
+const storage = multer.memoryStorage()
+
+//- Filter acceptable file type. Only images type
+
+const filterFileType = (
+  _req: Request,
+  file: Express.Multer.File,
+  cb: multer.FileFilterCallback,
+) => {
+  // Should only accept images
+  if (!file.mimetype.startsWith('image'))
+    return cb(new BadRequestException('File format not supported!'))
+
+  // File acceptable
+  cb(null, true)
+}
+
+//- Create upload
+const upload = multer({
+  storage,
+  fileFilter: filterFileType,
+})
+
+//- Resize cover image
+export const resizeImageUploads: TGenericRequestHandler = asyncWrapper(
+  async (req, _res, next) => {
+    // Test first it there are images in the request before trying to upload
+    if (!req.files) return next()
+
+    // Prep file names
+    const coverImgFilenameFormat = `tour-${req.params.tourId}-cover.webp`
+    const imagesFilenameFormat = (num: number) =>
+      `tour-${req.params.tourId}-${num}.webp`
+
+    /// Resize cover image and upload
+    let imageBuffer
+
+    // Images and cover image was supplied
+    const imgFiles = req.files as {
+      imageCover: Express.Multer.File[]
+      images: Express.Multer.File[]
+    }
+
+    /// handle cover image
+    if (imgFiles) imageBuffer = imgFiles.imageCover[0].buffer
+
+    const imagesPublicURL = 'public/images/tours'
+    const imgRatioWidth = 1333 // 2000
+    const imgRationHeight = 888 // 1333
+
+    // Extract file
+    await sharp(imageBuffer)
+      .resize(imgRatioWidth, imgRationHeight, {
+        fit: 'cover',
+      })
+      .webp({ quality: 70, smartSubsample: true })
+      .toFormat('webp')
+      .toFile(`${imagesPublicURL}/${coverImgFilenameFormat}`)
+
+    /// Save image cover to DB
+    req.body.imageCover = coverImgFilenameFormat
+
+    /// Resize tour images
+    let imagesBag: Array<string> = []
+
+    await Promise.all(
+      imgFiles.images.map(async (img, idx) => {
+        // Add image to the images bug
+        const filename = imagesFilenameFormat(idx + 1)
+
+        imagesBag.push(filename)
+
+        // Resize images
+        await sharp(img.buffer)
+          .resize(imgRatioWidth, imgRationHeight)
+          .webp({ quality: 70, smartSubsample: true })
+          .toFormat('webp')
+          .toFile(`${imagesPublicURL}/${filename}`)
+      }),
+    )
+
+    // Add images to the body and pass it to the next middleware (update | create)
+    req.body.images = imagesBag
+
+    // Next
+    next()
+  },
+)
+
+/**
+ *
+ * Middleware to implement on the create tour and update tour handlers
+ * Handle File Upload, 3 images and 1 cover image
+ */
+export const uploadTourImages: TGenericRequestHandler = upload.fields([
+  { name: 'images', maxCount: 3 },
+  { name: 'imageCover', maxCount: 1 },
+])
 
 /**
  * BASIC CRUD HANDLERS

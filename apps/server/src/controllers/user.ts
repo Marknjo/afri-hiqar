@@ -66,12 +66,12 @@ export const resizeProfilePhoto: TGenericRequestHandler = asyncWrapper(
     const bufferPhoto = req.file.buffer
 
     // Create the file naming convection
-    const filename = `${req.user!.id}-${Date.now()}.jpg`
+    const filename = `${req.user!.id}-${Date.now()}.webp`
 
     try {
       await sharp(bufferPhoto)
         .resize(500, 500)
-        .webp({ quality: 90 })
+        .webp({ quality: 70, smartSubsample: true })
         .toFormat('webp')
         .toFile(`public/images/users/${filename}`)
     } catch (error) {
