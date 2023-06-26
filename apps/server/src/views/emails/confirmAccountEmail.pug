@@ -4,8 +4,9 @@ block content
   //- Content
   p Hi #{name},
   p Once again thank you for registering with AfriHiqar.
-  p We would like to let you know we take your security and that of our customers serious. 
-  P Therefore, to prevent fraud and other cyber crime incidents, please confirm your account before proceeding.
+  p We would like to let you know, we take your security and that of our customers serious.
+  P So as to protect us all, we would like you to help us prevent fraud and other cyber crime incidents by confirming your account before engaging with AfriHiqar.
+  p Click the button below to confirm your account
   table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
     tbody
       tr
@@ -15,7 +16,7 @@ block content
               tr
                 td
                   - const baseUrl = url ? url : ""
-                  a(href=`${baseUrl}/sys-admin/profile`, target='_blank') Confirm Your Account
+                  a(href=`${url}/users/confirm-account`, target='_blank') Confirm Your Account
                   br
   table
     tbody
@@ -25,7 +26,11 @@ block content
               tbody
                 tr
                   td
-                    p PS: You have 24 hour before your account is temporarily suspended.
+                    p 
+                      small
+                        b PS: You have 24 hour before your account is temporarily suspended.
+                    <br />
+                    <br />
                     p Cheer!
                     p Yours truly CEO AfriHiqar,
                     p Mark Njoroge
