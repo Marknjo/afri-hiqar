@@ -1,5 +1,5 @@
 import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
-import { UserRoles } from '@models/types'
+import { EUserRoles } from '@models/types'
 import { NextFunction, Request, Response } from 'express'
 
 /**
@@ -9,9 +9,9 @@ import { NextFunction, Request, Response } from 'express'
  * @param  roles Array of user roles i.e. admin, user, lead-guide, guide
  * @returns Next function with error or to pass to the next handler
  */
-export const restrictTo = (...roles: Array<UserRoles>) => {
+export const restrictTo = (...roles: Array<EUserRoles>) => {
   return (req: Request, _res: Response, next: NextFunction) => {
-    const role = req.user!.role as UserRoles
+    const role = req.user!.role as EUserRoles
 
     /// Check if the current user has one of the roles defined in the roles
     if (roles.includes(role)) {

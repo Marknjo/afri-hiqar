@@ -7,7 +7,7 @@ import crypto from 'crypto'
 import mongoose, { Model } from 'mongoose'
 import pkg from 'validator'
 import bcrypt from 'bcryptjs'
-import { IUser, UserRoles } from './types'
+import { IUser, EUserRoles } from './types'
 
 // DECLARE SCHEMA & MODEL
 const { model, Schema } = mongoose
@@ -52,11 +52,11 @@ const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
       lowercase: true,
       enum: {
         values: [
-          UserRoles.ADMIN,
-          UserRoles.LEAD_GUIDE,
-          UserRoles.GUIDE,
-          UserRoles.USER,
-          UserRoles.GUEST,
+          EUserRoles.ADMIN,
+          EUserRoles.LEAD_GUIDE,
+          EUserRoles.GUIDE,
+          EUserRoles.USER,
+          EUserRoles.GUEST,
         ],
         message: 'Invalid role type.',
       },

@@ -2,7 +2,7 @@ import * as auth from '@lib/modules/auth'
 import * as review from '@controllers/review'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { Router } from 'express'
-import { UserRoles } from '@models/types'
+import { EUserRoles } from '@models/types'
 
 const router: Router = Router({ mergeParams: true })
 
@@ -23,12 +23,12 @@ router.use(auth.protect)
 router
   .route('/')
   .get(
-    auth.restrictTo(UserRoles.USER, UserRoles.ADMIN, UserRoles.LEAD_GUIDE),
+    auth.restrictTo(EUserRoles.USER, EUserRoles.ADMIN, EUserRoles.LEAD_GUIDE),
     review.filterGetReviews,
     review.getAllReviews,
   )
   .post(
-    auth.restrictTo(UserRoles.USER),
+    auth.restrictTo(EUserRoles.USER),
     review.prepCreateReviewFields,
     review.createReview,
   )
@@ -36,7 +36,7 @@ router
 // Review with ID
 // - Restrict to user and admin
 router.use(
-  auth.restrictTo(UserRoles.ADMIN, UserRoles.USER, UserRoles.LEAD_GUIDE),
+  auth.restrictTo(EUserRoles.ADMIN, EUserRoles.USER, EUserRoles.LEAD_GUIDE),
 )
 
 // - Allow only the current user to manipulate their reviews, but allow admin to do all actions

@@ -11,6 +11,8 @@ export interface IBooking extends Document {
   discount: number
   paymentMethod: string
   paid: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface IPopulatedBooking {
@@ -26,6 +28,8 @@ export interface IReview extends Document {
   tour: Types.ObjectId
   user: Types.ObjectId
   rating: number
+  createdAt: string
+  updatedAt: string
 }
 
 /**
@@ -37,6 +41,8 @@ export interface ILocation {
   address: string
   description: string
   day: number
+  createdAt: string
+  updatedAt: string
 }
 
 export interface ITour extends Document {
@@ -59,6 +65,8 @@ export interface ITour extends Document {
   guides: Types.DocumentArray<Types.ObjectId>
   locations: Array<ILocation>
   startLocation: Omit<ILocation, 'day'>
+  createdAt: string
+  updatedAt: string
 }
 
 /**
@@ -67,7 +75,7 @@ export interface ITour extends Document {
 export interface IUser extends Document {
   name: string
   email: string
-  role: Array<UserRoles> | string
+  role: Array<EUserRoles> | string
   active: boolean
   accountConfirmed: boolean
   photo: string
@@ -76,9 +84,11 @@ export interface IUser extends Document {
   passwordUpdatedAt: number
   passwordResetToken: string
   passwordResetTokenExpiresIn: string
+  createdAt: string
+  updatedAt: string
 }
 
-export enum UserRoles {
+export enum EUserRoles {
   ADMIN = 'admin',
   LEAD_GUIDE = 'lead-guide',
   GUIDE = 'guide',

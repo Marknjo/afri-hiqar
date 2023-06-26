@@ -1,6 +1,8 @@
 // SINGLE FEATURE HANDLERS
 import { env } from 'process'
 import { NextFunction, Request, Response } from 'express'
+import sharp from 'sharp'
+import multer from 'multer'
 
 import {
   EModelNames,
@@ -19,6 +21,8 @@ import { filterRequiredFields } from '@utils/filterRequiredFields'
 import { signTokenAndSendResponse } from '@lib/modules/auth/helpers'
 import Email from '@lib/modules/email/emailsHandler'
 import { isDev } from '@utils/env'
+
+/// Image manipulation/upload
 
 /// MIDDLEWARES
 export const updateUserMiddleware: TGenericRequestHandler = asyncWrapper(
