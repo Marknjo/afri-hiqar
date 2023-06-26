@@ -51,7 +51,7 @@ export const protect: TGenericRequestHandler = asyncWrapper(
         'Access to this resource denied. We could not verify your credentials. Please login again.',
       )
 
-    if (!foundUser.accountConfirmed)
+    if (!foundUser.accountConfirmed && req.path !== '/confirm-account')
       throw new ForbiddenRequestException(
         'Looks like you are trying to access this resource account unverified credentials. Please check your email to verify your for verification.',
       )

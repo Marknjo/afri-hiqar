@@ -261,7 +261,7 @@ class Email {
       ? (this.subject as string)
       : '😊😊😊 We are so thrilled you have confirmed your account'
 
-    await this.send(setSubject, 'accountConfirmed')
+    await this.send(setSubject, 'accountConfirmedEmail')
     return this
   }
 

@@ -39,9 +39,7 @@ export const signup: TGenericRequestHandler = asyncWrapper(
     // if successful in sending welcome email & account confirmation
     try {
       ///  @TODO: in future emailing as a cron job for faster processing of signup
-      const url = isDev
-        ? `${req.protocol}://${req.hostname}:${env.APP_PORT}`
-        : `${req.protocol}://${req.hostname}`
+      const url = isDev ? env.APP_CLIENT_URL_DEV! : env.APP_CLIENT_URL_PROD!
 
       // Try to send email
       await new Email({

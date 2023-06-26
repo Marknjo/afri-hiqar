@@ -1,6 +1,7 @@
 // SINGLE FEATURE HANDLERS
-
+import { env } from 'process'
 import { NextFunction, Request, Response } from 'express'
+
 import {
   EModelNames,
   createOne,
@@ -16,6 +17,8 @@ import { asyncWrapper } from '@utils/handlerWrappers'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
 import { signTokenAndSendResponse } from '@lib/modules/auth/helpers'
+import Email from '@lib/modules/email/emailsHandler'
+import { isDev } from '@utils/env'
 
 /// MIDDLEWARES
 export const updateUserMiddleware: TGenericRequestHandler = asyncWrapper(
@@ -145,6 +148,50 @@ export const deleteMeResponse = (req: Request, res: Response) => {
     resWithoutUser: true,
   })
 }
+
+//- Confirm my Account
+export const confirmAccount: TGenericRequestHandler = asyncWrapper(
+  async (req, res) => {
+    // Get user from the req, and update account
+    const loggedInUser = req.user!
+
+    const user = (await User.findByIdAndUpdate(
+      loggedInUser.id,
+      { accountConfirmed: true },
+      { runValidators: false, new: true },
+    ))!
+
+    // Send email
+    try {
+      await new Email({
+        recipient: {
+          email: user.email,
+          name: user.name,
+        },
+        url: isDev ? env.APP_CLIENT_URL_DEV! : env.APP_CLIENT_URL_PROD!,
+      }).sendAccountConfirmed()
+
+      // return response
+      res.status(200).json({
+        status: 'success',
+        data: {
+          message:
+            'Thank you for confirming your account. You can now access all restricted resources.',
+        },
+      })
+    } catch (error) {
+      // Email error
+      user.accountConfirmed = false
+      await user.save({ validateBeforeSave: false })
+
+      // Send error
+      throw new BadRequestException(
+        'We are sorry because we could not confirm your account right now. It seems we have a problem sending you an email. Please try again later.',
+        500,
+      )
+    }
+  },
+)
 
 /**
  * Admin Only Routes

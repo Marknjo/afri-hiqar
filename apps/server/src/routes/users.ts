@@ -26,8 +26,9 @@ router.post('/reset-password/:token', auth.resetPassword)
  */
 router.use(auth.protect)
 
-// @NOTE: Only logout login user
+// @NOTE: Only logout a login user
 router.get('/logout', auth.logout)
+router.route('/confirm-account').patch(user.confirmAccount)
 
 //- Login user routes
 router.get('/me', user.getMe, user.getUser)
