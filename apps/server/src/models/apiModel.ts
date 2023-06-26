@@ -4,6 +4,8 @@
 
 // 3rd Party
 import mongoose, { Model } from 'mongoose'
+import bcrypt from 'bcryptjs'
+
 import { IApi, IUser } from './types'
 
 // DECLARE SCHEMA & MODEL
@@ -11,7 +13,9 @@ const { model, Schema } = mongoose
 
 // Validations
 
-interface IApiMethods extends Model<IApi> {}
+interface IApiMethods extends Model<IApi> {
+  compareApiKey(bareKey: string, hashedKey: string): Promise<boolean>
+}
 
 interface IApiModel extends Model<IApi, {}, IApiMethods> {
   build(attrs: IApi): IApi
@@ -56,6 +60,20 @@ const apiSchema = new Schema<IApi, IApiModel, IApiMethods>(
   },
 )
 
+/**
+ * Hash token on saving data
+ */
+apiSchema.pre('save', async function (next) {
+  // check if password field is modified
+  if (!this.isModified('apiKey')) return next()
+
+  // hash apiKey 12
+  this.apiKey = await bcrypt.hash(this.apiKey, 12)
+
+  // next middleware
+  next()
+})
+
 apiSchema.pre(/^find/, function (next) {
   /* @ts-ignore */
   this.populate<{ user: IUser }>({
@@ -65,6 +83,18 @@ apiSchema.pre(/^find/, function (next) {
 
   next()
 })
+
+//// METHODS
+
+/**
+ * Query Method Compare API Keys
+ * @param bareKey API plain secret key
+ * @param hashedKey Hashed key stored in the DB
+ * @returns Whether a key test passes or not
+ */
+apiSchema.methods.compareApiKey = async function (bareKey, hashedKey) {
+  return await bcrypt.compare(bareKey, hashedKey)
+}
 
 apiSchema.statics.build = (attrs: IApi) => {
   return new Api(attrs)
