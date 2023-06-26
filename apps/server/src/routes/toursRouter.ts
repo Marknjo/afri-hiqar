@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import * as auth from '@lib/modules/auth'
-import * as tour from '@controllers/tour'
-import reviewsRouter from './reviews'
+import * as tour from '@controllers/tourController'
+import reviewsRouter from './reviewsRouter'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { EUserRoles } from '@models/types'
 

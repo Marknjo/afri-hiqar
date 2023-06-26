@@ -1,5 +1,5 @@
 import * as auth from '@lib/modules/auth'
-import * as review from '@controllers/review'
+import * as review from '@controllers/reviewController'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { Router } from 'express'
 import { EUserRoles } from '@models/types'

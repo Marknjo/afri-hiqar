@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as user from '@controllers/user'
+import * as user from '@controllers/userController'
 import * as auth from '@lib/modules/auth'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { EUserRoles } from '@models/types'
