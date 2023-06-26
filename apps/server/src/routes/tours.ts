@@ -21,8 +21,8 @@ router.get('/top-5-best-rated-tours', tour.getTopRatedTours, tour.getAllTours)
 
 // Get all tours
 router.route('/').get(tour.getAllTours).post(tour.createTour)
-router.get('/:slug', tour.getTourBySlug)
 
+router.get('/:slug', tour.getTourBySlug)
 // Get a single tour by id | Slug
 router.route('/:tourId').get(tour.getTour)
 

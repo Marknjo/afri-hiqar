@@ -18,6 +18,7 @@ import Tour from '@models/tourModel'
 import { IReview, ITour } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { NextFunction, Request, Response } from 'express'
+import mongoose from 'mongoose'
 
 /**
  * BASIC CRUD HANDLERS
@@ -119,9 +120,14 @@ export const getTopRatedTours = (
  * Get A Tour Page Handler
  */
 export const getTourBySlug: TGenericRequestHandler = asyncWrapper(
-  async (req, res) => {
+  async (req, res, next) => {
     // Get tour slug
     const slug = req.params.slug
+
+    /// skip when it is tourId used to fetch a tour
+    if (mongoose.isValidObjectId(slug)) {
+      return next()
+    }
 
     // Find tour by slug
     const tour = await Tour.findOne({ slug }).populate({
