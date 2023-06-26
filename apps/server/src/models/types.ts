@@ -88,6 +88,17 @@ export interface IUser extends Document {
   updatedAt: string
 }
 
+export interface IApi extends Document {
+  user: Types.ObjectId
+  isDefault: boolean // default api app consumer only one
+  accountConfirmed: boolean // whether user of the account has confirmed it
+  active: boolean // whether api key is expired or not
+  apiKey: string
+  apiExpiresAt: string // when api expires - date
+  createdAt: string
+  updatedAt: string
+}
+
 export enum EUserRoles {
   ADMIN = 'admin',
   LEAD_GUIDE = 'lead-guide',
