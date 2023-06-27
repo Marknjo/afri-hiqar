@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
+import mongoSanitize from 'express-mongo-sanitize'
 
 /// Local imports
 import * as api from '@lib/modules/api'
@@ -40,6 +41,9 @@ app.options('*', cors(corsOpts))
 
 //- setup helmet as default
 app.use(helmet())
+
+//- Sanitize incoming queries
+app.use(mongoSanitize())
 
 // API GUARD
 app.use(api.guard)
