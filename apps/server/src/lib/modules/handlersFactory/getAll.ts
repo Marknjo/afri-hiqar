@@ -45,17 +45,17 @@ export function getAll<T>({
 
     // If there is no data -> Send a message instead
     let message
-    if (data.length === 0) {
+    if (data.length === 0 && options.message) {
+      message = options.message
+    } else {
       message = `There is no ${options.modelName} returned from this request`
     }
 
     res.status(200).json({
       status: 'success',
       results,
-      data: {
-        ...(data.length > 0 ? { [options.modelName]: data } : {}),
-        ...(message ? { message } : {}),
-      },
+      ...(message ? { message } : {}),
+      ...(data.length > 0 ? { data: { [options.modelName]: data } } : {}),
     })
   })
 }
