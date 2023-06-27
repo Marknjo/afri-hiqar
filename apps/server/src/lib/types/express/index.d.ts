@@ -12,6 +12,7 @@ declare global {
       user?: IUser
       tourId?: string
       filename?: string
+      payload?: { [key: string]: any } | [{ [key: string]: any }]
     }
   }
 }

@@ -16,6 +16,16 @@ export function getOne<T>(
 ): TGenericRequestHandler {
   return asyncWrapper(
     async (req: Request, res: Response, _next: NextFunction) => {
+      /// prevent refetch if data is available
+      if (req.payload) {
+        return res.status(200).json({
+          status: 'success',
+          data: {
+            [options.modelName]: req.payload,
+          },
+        })
+      }
+
       // setup id dynamically
       let id
 

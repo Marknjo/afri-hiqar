@@ -6,6 +6,7 @@ export enum EModelNames {
   REVIEW = 'review',
   USER = 'user',
   MEDIA = 'media',
+  API = 'api',
 }
 
 export interface IGenericObject {
@@ -22,6 +23,7 @@ export interface IQueryString {
 export interface IGenericHandlerOption {
   optionalFilters?: any
   modelName: EModelNames
+  message?: string
 }
 
 export interface IGetOneOptions {
