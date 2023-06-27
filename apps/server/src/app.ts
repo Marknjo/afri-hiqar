@@ -5,6 +5,7 @@ import { resolve } from 'path'
 import express, { Application } from 'express'
 import cookieParser from 'cookie-parser'
 import compression from 'compression'
+import cors, { CorsOptions } from 'cors'
 
 /// Local imports
 import * as api from '@lib/modules/api'
@@ -20,6 +21,7 @@ import toursRouter from '@routes/toursRouter'
 import usersRouter from '@routes/usersRouter'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
 import globalExceptionHandler from '@lib/middlewares/globalExceptionHandler'
+import { isDev } from '@utils/env'
 
 const app: Application = express()
 
@@ -41,6 +43,16 @@ app.set('views', resolve(__dirname, 'views'))
 logger(app)
 
 /// Configs
+
+// cors for all HTTP Methods
+const originUrl = isDev ? env.APP_CLIENT_URL_DEV : env.APP_CLIENT_URL_PROD
+const corsOpts: CorsOptions = {
+  origin: originUrl,
+  credentials: true,
+}
+app.use(cors(corsOpts))
+app.options('*', cors(corsOpts))
+
 app.use(express.json({ limit: '10kb' }))
 app.use(cookieParser())
 
