@@ -2,13 +2,14 @@ import { env } from 'process'
 import { resolve } from 'path'
 // import { randomBytes } from 'crypto'
 
-import express, { Application } from 'express'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import cookieParser from 'cookie-parser'
 import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import hpp from 'hpp'
+
 /* @ts-ignore lacks ts support*/
 import { xss } from 'express-xss-sanitizer'
 
@@ -27,6 +28,7 @@ import usersRouter from '@routes/usersRouter'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
 import globalExceptionHandler from '@lib/middlewares/globalExceptionHandler'
 import { isDev } from '@utils/env'
+import rateLimitConfig from '@config/rateLimit.config'
 
 const app: Application = express()
 
@@ -48,8 +50,11 @@ app.use(helmet())
 //- Sanitize incoming queries
 app.use(mongoSanitize())
 
-// API GUARD
+//- API GUARD
 app.use(api.guard)
+
+//- Rate Limiter
+app.use(rateLimitConfig)
 
 /// setup
 const apiVersion = env.API_VERSION || 1

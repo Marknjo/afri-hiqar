@@ -82,6 +82,7 @@ export const guard: TGenericRequestHandler = asyncWrapper(
 
     // If all is well, allow use to access the route
     req.apiKey = apiKey
+    req.apiKeyIsDefault = serverApiKeyRes.isDefault
 
     // User allowed to access the next route
     next()

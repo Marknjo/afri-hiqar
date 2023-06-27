@@ -13,6 +13,7 @@ declare global {
       tourId?: string
       filename?: string
       apiKey?: string
+      apiKeyIsDefault?: boolean
       payload?: { [key: string]: any } | [{ [key: string]: any }]
     }
   }

@@ -148,6 +148,9 @@ importers:
       express-mongo-sanitize:
         specifier: ^2.2.0
         version: 2.2.0
+      express-rate-limit:
+        specifier: ^6.7.0
+        version: 6.7.0(express@4.18.2)
       express-xss-sanitizer:
         specifier: ^1.1.6
         version: 1.1.6
@@ -3606,6 +3609,15 @@ packages:
   /express-mongo-sanitize@2.2.0:
     resolution: {integrity: sha512-PZBs5nwhD6ek9ZuP+W2xmpvcrHwXZxD5GdieX2dsjPbAbH4azOkrHbycBud2QRU+YQF1CT+pki/lZGedHgo/dQ==}
     engines: {node: '>=10'}
+    dev: false
+
+  /express-rate-limit@6.7.0(express@4.18.2):
+    resolution: {integrity: sha512-vhwIdRoqcYB/72TK3tRZI+0ttS8Ytrk24GfmsxDXK9o9IhHNO5bXRiXQSExPQ4GbaE5tvIS7j1SGrxsuWs+sGA==}
+    engines: {node: '>= 12.9.0'}
+    peerDependencies:
+      express: ^4 || ^5
+    dependencies:
+      express: 4.18.2
     dev: false
 
   /express-xss-sanitizer@1.1.6:
