@@ -1,7 +1,9 @@
+import { Router } from 'express'
+
+import * as api from '@lib/modules/api'
 import * as auth from '@lib/modules/auth'
 import * as review from '@controllers/reviewController'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
-import { Router } from 'express'
 import { EUserRoles } from '@models/types'
 
 const router: Router = Router({ mergeParams: true })
@@ -12,14 +14,6 @@ router.param('reviewId', isValidIdMiddleware)
 /**
  * Getters
  */
-
-/**
- * Protected Routes
- * Admin Area
- */
-
-router.use(auth.protect)
-
 router
   .route('/')
   .get(

@@ -14,6 +14,7 @@ export const isValidIdMiddleware = (
   const tourId = req.params.tourId
   const userId = (id = req.params.userId)
   const reviewId = (id = req.params.reviewId)
+  const apiId = (id = req.params.apiId)
 
   if (tourId) {
     id = tourId
@@ -28,6 +29,11 @@ export const isValidIdMiddleware = (
   if (reviewId) {
     id = reviewId
     modelName = 'review'
+  }
+
+  if (apiId) {
+    id = apiId
+    modelName = 'api'
   }
 
   if (!isValidObjectId(id))

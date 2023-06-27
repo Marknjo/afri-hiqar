@@ -1,4 +1,6 @@
 import { Router } from 'express'
+
+import * as api from '@lib/modules/api'
 import * as auth from '@lib/modules/auth'
 import * as tour from '@controllers/tourController'
 import reviewsRouter from './reviewsRouter'

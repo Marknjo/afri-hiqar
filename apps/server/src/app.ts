@@ -6,21 +6,25 @@ import express, { Application } from 'express'
 import cookieParser from 'cookie-parser'
 
 /// Local imports
+import * as api from '@lib/modules/api'
+import { logger } from '@config/logger.config'
 
 // Routes
-import { logger } from '@config/logger.config'
+import publicPagesRouter from '@routes/publicPagesRouter'
+import apiRouter from '@routes/apiRouter'
 import bookingsRouter from '@routes/bookingsRouter'
 import mediaRouter from '@routes/mediaRouter'
 import reviewsRouter from '@routes/reviewsRouter'
 import toursRouter from '@routes/toursRouter'
 import usersRouter from '@routes/usersRouter'
-import { EResStatus, TJsonRes } from '@lib/types/JsonRes'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
 import globalExceptionHandler from '@lib/middlewares/globalExceptionHandler'
 
 const app: Application = express()
 
 // console.log(randomBytes(32).toString('hex'))
+// API GUARD
+app.use(api.guard)
 
 /// setup
 const apiVersion = env.API_VERSION || 1
@@ -42,21 +46,17 @@ app.use(cookieParser())
 /// performance
 
 /// Routes
-app.get(`/api/v${+apiVersion}/_health`, (_req, res: TJsonRes) => {
-  res.json({
-    status: EResStatus.SUCCESS,
-    data: {
-      message: 'Server is live',
-    },
-  })
-})
 const baseUrl = (route: string) => `/api/v${+apiVersion}/${route}`
 
+/// Routes
+app.use(baseUrl(''), publicPagesRouter)
+
+app.use(baseUrl('key'), apiRouter)
+app.use(baseUrl('users'), usersRouter)
 app.use(baseUrl('bookings'), bookingsRouter)
 app.use(baseUrl('media'), mediaRouter)
 app.use(baseUrl('reviews'), reviewsRouter)
 app.use(baseUrl('tours'), toursRouter)
-app.use(baseUrl('users'), usersRouter)
 
 /// Error handling
 // 404 response handler

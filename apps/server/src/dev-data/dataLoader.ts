@@ -21,6 +21,7 @@ export enum EModelNames {
   REVIEW = 'review',
   USER = 'user',
   MEDIA = 'media',
+  API = 'api',
 }
 
 /// LOAD JSON FILES

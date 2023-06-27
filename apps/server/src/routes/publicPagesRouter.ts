@@ -2,14 +2,21 @@ import * as api from '@lib/modules/api'
 import * as auth from '@lib/modules/auth'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
 import { Router } from 'express'
+import { EResStatus, TJsonRes } from '@lib/types/JsonRes'
 
 const router: Router = Router()
 
 // middlewares
-router.param('mediaId', isValidIdMiddleware)
+router.param('publicPageId', isValidIdMiddleware)
 
-router.get('/', (req, res) => {
-  res.send('Media Router')
+/**
+ * Health Route
+ */
+router.get(`/_health`, (_req, res: TJsonRes) => {
+  res.status(200).json({
+    status: EResStatus.SUCCESS,
+    message: 'Server is live',
+  })
 })
 /**
  * Protected Routes

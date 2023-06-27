@@ -1,3 +1,4 @@
+import * as api from '@lib/modules/api'
 import * as auth from '@lib/modules/auth'
 import * as booking from '@controllers/bookingController'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
@@ -9,11 +10,8 @@ const router: Router = Router()
 // middlewares
 router.param('bookingId', isValidIdMiddleware)
 
+/// AUTH GUARD
 router.use(auth.protect)
-
-/**
- * Protected Routes
- */
 
 /// CRUDs Routes
 //- Group Restrictions to 'admin', 'lead-guide', 'guide'
