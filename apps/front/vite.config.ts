@@ -11,7 +11,6 @@ const root = resolve(__dirname, 'src')
 export default defineConfig({
   resolve: {
     alias: {
-      '~': root,
       '@pages': resolve(root, 'components/pages'),
       '@ui': resolve(root, 'components/ui'),
       '@layouts': resolve(root, 'components/layouts'),
