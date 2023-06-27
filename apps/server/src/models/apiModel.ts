@@ -24,6 +24,11 @@ interface IApiModel extends Model<IApi, {}, IApiMethods> {
 // DEFINE SCHEMA
 const apiSchema = new Schema<IApi, IApiModel, IApiMethods>(
   {
+    label: {
+      type: String,
+      required: [true, 'Add a unique label to your api key'],
+      unique: true,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -40,15 +45,7 @@ const apiSchema = new Schema<IApi, IApiModel, IApiMethods>(
       type: Boolean,
       default: false,
     },
-    accountConfirmed: {
-      type: Boolean,
-      default: false,
-    },
-    active: {
-      type: Boolean,
-      default: true,
-    },
-    apiExpiresAt: Date,
+    expiresIn: Date,
   },
   {
     // Allow time stamps

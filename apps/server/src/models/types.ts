@@ -89,12 +89,11 @@ export interface IUser extends Document {
 }
 
 export interface IApi extends Document {
+  label: string
   user: Types.ObjectId
-  isDefault: boolean // default api app consumer only one
-  accountConfirmed: boolean // whether user of the account has confirmed it
-  active: boolean // whether api key is expired or not
   apiKey: string
-  apiExpiresAt: string // when api expires - date
+  isDefault: boolean // default api app consumer only one
+  expiresIn: string // when api expires - date
   createdAt: string
   updatedAt: string
 }
