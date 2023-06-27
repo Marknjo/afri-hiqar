@@ -4,6 +4,7 @@ import { resolve } from 'path'
 
 import express, { Application } from 'express'
 import cookieParser from 'cookie-parser'
+import compression from 'compression'
 
 /// Local imports
 import * as api from '@lib/modules/api'
@@ -44,6 +45,7 @@ app.use(express.json({ limit: '10kb' }))
 app.use(cookieParser())
 
 /// performance
+app.use(compression())
 
 /// Routes
 const baseUrl = (route: string) => `/api/v${+apiVersion}/${route}`
