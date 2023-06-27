@@ -9,6 +9,7 @@
     "localforage",
     "MAPBOX",
     "maxlength",
-    "tsnd"
+    "tsnd",
+    "uuidv"
   ]
 }
