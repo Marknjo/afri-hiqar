@@ -1,15 +1,21 @@
-import Root from '@pages/home/Root'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
+
 import ErrorPage from '@pages/general/ErrorPage'
+import HomePage from './pages/HomePage'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <HomePage />,
     errorElement: <ErrorPage />,
   },
 ])
 
 export default function AppRouter() {
-  return <RouterProvider router={router} />
+  return (
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>
+  )
 }
