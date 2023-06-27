@@ -8,6 +8,7 @@ import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
+import hpp from 'hpp'
 /* @ts-ignore */
 import { xss } from 'express-xss-sanitizer'
 
@@ -70,6 +71,18 @@ app.use(cookieParser())
 
 //- Configure xss filters
 app.use(xss())
+
+//- Prevent HTTP Parameters pollution for Tours filtering
+const whitelist = [
+  'duration',
+  'price',
+  'ratingsAverage',
+  'ratingsQuantity',
+  'difficulty',
+  'maxGroupSize',
+  'createdAt',
+]
+app.use(hpp({ whitelist }))
 
 /// performance
 app.use(compression())
