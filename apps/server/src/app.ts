@@ -8,6 +8,8 @@ import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
+/* @ts-ignore */
+import { xss } from 'express-xss-sanitizer'
 
 /// Local imports
 import * as api from '@lib/modules/api'
@@ -63,7 +65,11 @@ logger(app)
 
 /// Configs
 app.use(express.json({ limit: '10kb' }))
+app.use(express.urlencoded({ limit: '2mb' })) // for images max-size 2mb
 app.use(cookieParser())
+
+//- Configure xss filters
+app.use(xss())
 
 /// performance
 app.use(compression())
