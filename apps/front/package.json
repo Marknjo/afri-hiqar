@@ -12,6 +12,7 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@mj/server": "workspace:^",
     "@mj/ui": "workspace:*",
     "@tanstack/react-query": "^4.29.14",
     "@tanstack/react-query-devtools": "^4.29.14",
