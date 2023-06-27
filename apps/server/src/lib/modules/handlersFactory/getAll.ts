@@ -47,7 +47,7 @@ export function getAll<T>({
     let message
     if (data.length === 0 && options.message) {
       message = options.message
-    } else {
+    } else if (data.length === 0) {
       message = `There is no ${options.modelName} returned from this request`
     }
 
