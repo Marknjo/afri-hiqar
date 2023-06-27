@@ -3,9 +3,9 @@ import crypto from 'crypto'
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import User from '@models/userModel'
+import { IUser } from '@models/types'
 
 import { TGenericRequestHandler } from '../handlersFactory'
-import { IUser } from '@models/types'
 import { signTokenAndSendResponse } from './helpers'
 
 /**

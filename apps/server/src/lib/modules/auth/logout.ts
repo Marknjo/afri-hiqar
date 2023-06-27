@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
-import { signTokenAndSendResponse } from './helpers'
+
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
+
+import { signTokenAndSendResponse } from './helpers'
 
 /**
  * Logout user

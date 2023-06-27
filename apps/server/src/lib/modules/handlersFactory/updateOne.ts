@@ -3,8 +3,9 @@ import { Query, Model as HandlerModel } from 'mongoose'
 
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
-import { ICreateOneOptions, TGenericRequestHandler } from './types'
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
+
+import { ICreateOneOptions, TGenericRequestHandler } from './types'
 
 /**
 /**

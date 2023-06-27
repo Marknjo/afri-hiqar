@@ -25,8 +25,6 @@ export const generateNewApiKey: TGenericRequestHandler = asyncWrapper(
     // get data - label
     const body = req.body
 
-    console.log(uuidV4())
-
     // generate a new api key
     const apiKey = generateApiKey({
       method: 'uuidv5',

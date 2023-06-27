@@ -1,8 +1,10 @@
 import { Query, Model as HandlerModel } from 'mongoose'
-import { IGetOneOptions, TGenericRequestHandler } from './types'
+import { NextFunction, Request, Response } from 'express'
+
 import { NotFoundException } from '@lib/exceptions/NotFoundException'
 import { asyncWrapper } from '@utils/handlerWrappers'
-import { NextFunction, Request, Response } from 'express'
+
+import { IGetOneOptions, TGenericRequestHandler } from './types'
 
 /**
  * Get One general handler method

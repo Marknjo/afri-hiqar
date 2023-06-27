@@ -1,7 +1,8 @@
+import { Router } from 'express'
+
 import * as api from '@lib/modules/api'
 import * as auth from '@lib/modules/auth'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
-import { Router } from 'express'
 
 const router: Router = Router()
 

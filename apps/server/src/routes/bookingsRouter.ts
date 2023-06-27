@@ -1,8 +1,8 @@
-import * as api from '@lib/modules/api'
+import { Router } from 'express'
+
 import * as auth from '@lib/modules/auth'
 import * as booking from '@controllers/bookingController'
 import { isValidIdMiddleware } from '@lib/middlewares/isValidIdMiddleware'
-import { Router } from 'express'
 import { EUserRoles } from '@models/types'
 
 const router: Router = Router()

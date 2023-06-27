@@ -1,9 +1,10 @@
+import { NextFunction, Request, Response } from 'express'
 import { Query, Model as HandlerModel } from 'mongoose'
 
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
+
 import { ICreateOneOptions, TGenericRequestHandler } from './types'
-import { NextFunction, Request, Response } from 'express'
 
 /**
  * Create one general handler method

@@ -1,8 +1,10 @@
 import { join } from 'path'
 import { createWriteStream } from 'fs'
-import morgan from 'morgan'
-import { isProd } from '@utils/env'
+
 import { Application } from 'express'
+import morgan from 'morgan'
+
+import { isProd } from '@utils/env'
 
 export function logger(app: Application) {
   if (!isProd) {

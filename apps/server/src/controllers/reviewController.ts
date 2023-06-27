@@ -1,4 +1,5 @@
 // SINGLE FEATURE HANDLERS
+import { NextFunction, Request, Response } from 'express'
 
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import {
@@ -15,7 +16,6 @@ import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import Review from '@models/reviewModel'
 import { IReview } from '@models/types'
 import { asyncWrapper } from '@utils/handlerWrappers'
-import { NextFunction, Request, Response } from 'express'
 
 /// MIDDLEWARES HANDLERS
 

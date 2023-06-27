@@ -1,5 +1,7 @@
+import { isValidObjectId } from 'mongoose'
+
 import Api from '@models/apiModel'
-import { IApi, IUser } from '@models/types'
+import { IApi } from '@models/types'
 import {
   EModelNames,
   TGenericRequestHandler,
@@ -13,7 +15,6 @@ import { asyncWrapper } from '@utils/handlerWrappers'
 import { filterRequiredFields } from '@utils/filterRequiredFields'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
-import { isValidObjectId } from 'mongoose'
 
 /// MIDDLEWARES
 
@@ -91,8 +92,6 @@ export const limitAdminPrivilegesTo: TGenericRequestHandler = (
   >(requiredFields, req.body)
 
   /// check if user id is a valid mongo id format
-
-  console.log({ user: filteredFields.user }, '🚩🚩🚩🚩')
 
   if (filteredFields.user && !isValidObjectId(filteredFields.user))
     throw new BadRequestException(

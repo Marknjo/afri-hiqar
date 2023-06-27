@@ -9,7 +9,7 @@ import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import hpp from 'hpp'
-/* @ts-ignore */
+/* @ts-ignore lacks ts support*/
 import { xss } from 'express-xss-sanitizer'
 
 /// Local imports
@@ -69,7 +69,7 @@ app.use(express.json({ limit: '10kb' }))
 app.use(express.urlencoded({ limit: '2mb' })) // for images max-size 2mb
 app.use(cookieParser())
 
-//- Configure xss filters
+//- Configure XSS filters
 app.use(xss())
 
 //- Prevent HTTP Parameters pollution for Tours filtering
@@ -90,9 +90,10 @@ app.use(compression())
 /// Routes
 const baseUrl = (route: string) => `/api/v${+apiVersion}/${route}`
 
-/// Routes
+//- Public Routes
 app.use(baseUrl(''), publicPagesRouter)
 
+//- API Routes
 app.use(baseUrl('key'), apiRouter)
 app.use(baseUrl('users'), usersRouter)
 app.use(baseUrl('bookings'), bookingsRouter)
@@ -100,14 +101,14 @@ app.use(baseUrl('media'), mediaRouter)
 app.use(baseUrl('reviews'), reviewsRouter)
 app.use(baseUrl('tours'), toursRouter)
 
-/// Error handling
+/// Error Handling
 // 404 response handler
 app.all('*', req => {
   const message = `${req.originalUrl} cannot be found in this server.`
   throw new NotFoundException(message)
 })
 
-/// global error handling
+/// Global Error Handling
 app.use(globalExceptionHandler)
 
 export default app

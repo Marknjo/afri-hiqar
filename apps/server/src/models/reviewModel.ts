@@ -4,7 +4,7 @@ import mongoose, { Model } from 'mongoose'
 
 // local
 
-import { IReview, ITour, IUser } from './types'
+import { IReview, ITour } from './types'
 import Tour from './tourModel'
 
 // DECLARE SCHEMA & MODEL

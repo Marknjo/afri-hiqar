@@ -1,9 +1,10 @@
 import { asyncWrapper } from '@utils/handlerWrappers'
 import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
 
-import { TGenericRequestHandler } from '../handlersFactory'
 import Api from '@models/apiModel'
 import { IUser } from '@models/types'
+
+import { TGenericRequestHandler } from '../handlersFactory'
 
 /**
  * Protect routes (Login users access) middleware
@@ -12,8 +13,6 @@ export const guard: TGenericRequestHandler = asyncWrapper(
   async (req, _res, next) => {
     // Don't hit db if there is apiKey in the request
     if (req.apiKey) {
-      console.log('💥💥💥💥')
-
       return next()
     }
 

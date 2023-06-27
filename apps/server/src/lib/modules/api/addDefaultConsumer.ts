@@ -1,11 +1,8 @@
-import { generateApiKey } from 'generate-api-key'
-
 import { asyncWrapper } from '@utils/handlerWrappers'
-import { TGenericRequestHandler } from '../handlersFactory'
 import Api from '@models/apiModel'
-
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 
+import { TGenericRequestHandler } from '../handlersFactory'
 /**
  * This is a quick method to set the default api consumer
  */

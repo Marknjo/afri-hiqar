@@ -1,6 +1,7 @@
-import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { NextFunction, Request, Response } from 'express'
 import { isValidObjectId } from 'mongoose'
+
+import { BadRequestException } from '@lib/exceptions/BadRequestException'
 
 export const isValidIdMiddleware = (
   req: Request,

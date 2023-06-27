@@ -1,6 +1,7 @@
+import { NextFunction, Request, Response } from 'express'
+
 import { ForbiddenRequestException } from '@lib/exceptions/ForbiddenRequestException'
 import { EUserRoles } from '@models/types'
-import { NextFunction, Request, Response } from 'express'
 
 /**
  * Restricts route access to specific user roles

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
-import { HttpExceptionFilter } from '../exceptions/ExceptionHandler'
+import mongoose from 'mongoose'
+
 import {
   EExceptionStatusCodes,
   EResStatus,
@@ -8,7 +9,8 @@ import {
 } from '@lib/types/JsonRes'
 import { isDev, isProd } from '@utils/env'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
-import mongoose from 'mongoose'
+
+import { HttpExceptionFilter } from '../exceptions/ExceptionHandler'
 
 /**
  * Handles a broken JWT token
@@ -74,7 +76,6 @@ export default (
   next: NextFunction,
 ) => {
   /// log all errors to the console if it is dev
-  isDev && console.log(err)
 
   // Handler JWT Common errors
   if (err.name === 'TokenExpiredError') err = jwtTokenExpiredHandler()
@@ -92,6 +93,7 @@ export default (
   if (err.name === 'ValidationError')
     err = mongooseValidationErrorsHandler(err as mongoose.Error.ValidationError)
 
+  isDev && console.log(err)
   /// handle all errors except 500 types of errors
   if (
     err instanceof HttpExceptionFilter &&

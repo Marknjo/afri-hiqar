@@ -1,10 +1,11 @@
 import { asyncWrapper } from '@utils/handlerWrappers'
-import { TGenericRequestHandler } from '../handlersFactory'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import User from '@models/userModel'
 import { IUser } from '@models/types'
+
 import { signTokenAndSendResponse } from './helpers'
+import { TGenericRequestHandler } from '../handlersFactory'
 
 /**
  * User Login

@@ -1,11 +1,12 @@
+import { env } from 'process'
+import mongoose from 'mongoose'
+
 import './dotenv.config'
 /* eslint-disable no-console */
 /* eslint-disable consistent-return */
 // Globals
-import { env } from 'process'
 
 // 3rd Party
-import mongoose from 'mongoose'
 import { isProd } from '../utils/env'
 
 /**

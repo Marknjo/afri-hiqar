@@ -5,10 +5,10 @@ import { BadRequestException } from '@lib/exceptions/BadRequestException'
 import User from '@models/userModel'
 import { EExceptionStatusCodes } from '@lib/types/JsonRes'
 import { isDev } from '@utils/env'
+import { IUser } from '@models/types'
 
 import { TGenericRequestHandler } from '../handlersFactory'
 import Email from '../email/emailsHandler'
-import { IUser } from '@models/types'
 
 /**
  * Forget user password handler

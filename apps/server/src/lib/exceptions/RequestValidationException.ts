@@ -4,6 +4,7 @@ import {
   IExceptionResponse,
   TExceptionCollection,
 } from '@lib/types/JsonRes'
+
 import { HttpExceptionFilter } from './ExceptionHandler'
 
 export class RequestValidationException extends HttpExceptionFilter {
