@@ -81,7 +81,6 @@ export const signTokenAndSendResponse = async (
     // Add token to cookie response
     //setJwtCookie(req, res, jwtToken, { allowRemember: true, remember });
     const cookieOptions = setCookieOptions(req, {
-      allowRemember: true,
       remember,
     })
 

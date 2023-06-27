@@ -21,7 +21,8 @@ export enum EResStatus {
 
 export type TJsonRes = Response<{
   status: EResStatus
-  data: { message: string; payload?: string }
+  message?: string
+  data?: { [payload: string]: string }
 }>
 
 export interface IExceptionResponse {

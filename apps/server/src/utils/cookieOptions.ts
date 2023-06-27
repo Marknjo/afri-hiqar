@@ -2,7 +2,6 @@ import { CookieOptions, Request } from 'express'
 import { env } from 'process'
 
 interface ICookieOptions {
-  allowRemember: boolean
   remember: boolean
   customExpiresIn?: number
 }
@@ -15,12 +14,11 @@ interface ICookieOptions {
  */
 const setCookieOptions = (req: Request, configOptions: ICookieOptions) => {
   const configDefaults = {
-    allowRemember: false,
     remember: false,
     customExpiresIn: 1,
   }
   // Initialize configs
-  const { customExpiresIn, remember, allowRemember } = {
+  const { customExpiresIn, remember } = {
     ...configDefaults,
     ...configOptions,
   }
@@ -29,7 +27,7 @@ const setCookieOptions = (req: Request, configOptions: ICookieOptions) => {
   let expiresIn = new Date(Date.now() + customExpiresIn)
 
   /// Handle login and signup cases -> remember me
-  if (allowRemember) {
+  if (remember) {
     expiresIn = remember
       ? new Date(Date.now() + 7 * 24 * 60 * 1000)
       : new Date(Date.now() + 24 * 60 * 1000)
