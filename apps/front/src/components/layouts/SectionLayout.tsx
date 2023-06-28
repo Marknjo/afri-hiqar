@@ -1,5 +1,4 @@
-import { CSSProperties, ReactNode, createElement } from 'react'
-import { TElements } from '@lib/types'
+import { CSSProperties, ElementType, ReactNode, createElement } from 'react'
 import { TLayoutProps } from './Wrapper'
 
 export default function SectionLayout({
@@ -8,7 +7,7 @@ export default function SectionLayout({
   className = '',
   ...props
 }: {
-  as?: TElements
+  as?: ElementType
   children: ReactNode
   className?: CSSProperties | string
   props?: TLayoutProps

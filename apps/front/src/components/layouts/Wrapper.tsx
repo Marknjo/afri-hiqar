@@ -1,12 +1,11 @@
 import {
   CSSProperties,
   DetailedHTMLProps,
+  ElementType,
   HTMLAttributes,
   ReactNode,
   createElement,
 } from 'react'
-
-import { TElements } from '@lib/types'
 
 export type TLayoutProps = DetailedHTMLProps<
   HTMLAttributes<HTMLElement>,
@@ -19,7 +18,7 @@ export default function Wrapper({
   className = '',
   ...props
 }: {
-  as?: TElements
+  as?: ElementType
   children: ReactNode
   className?: CSSProperties | string
   props?: TLayoutProps
