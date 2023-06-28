@@ -1,13 +1,9 @@
 import { ReactNode } from 'react'
 
-export default function CenterContentContainer({
+export default function CenterContentWrapper({
   children,
 }: {
   children: ReactNode
 }) {
-  return (
-    <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm lg:flex">
-      {children}
-    </div>
-  )
+  return <div className="flex flex-col w-full h-full">{children}</div>
 }

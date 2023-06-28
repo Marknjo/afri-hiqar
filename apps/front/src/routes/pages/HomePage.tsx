@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
-import RootLayout from '@layouts/RootLayout'
-import CenterContentContainer from '@layouts/ContainerLayout'
+import CenterContentWrapper from '@layouts/ContainerLayout'
+import Wrapper from '@layouts/Wrapper'
+import Layout from '@layouts/Layout'
 
 export default function HomePage() {
   return (
@@ -8,12 +9,14 @@ export default function HomePage() {
       <Helmet>
         <title>AfriHiqar</title>
       </Helmet>
-      <RootLayout>
-        <CenterContentContainer>
-          <h1>Home Page</h1>
-          <p>this is home Page</p>
-        </CenterContentContainer>
-      </RootLayout>
+      <Layout>
+        <Wrapper as="div">
+          <CenterContentWrapper>
+            <h1>Home Page</h1>
+            <p>this is home Page</p>
+          </CenterContentWrapper>
+        </Wrapper>
+      </Layout>
     </>
   )
 }
