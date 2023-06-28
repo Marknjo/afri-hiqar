@@ -25,7 +25,8 @@ module.exports = {
     'react/require-default-props': 'off',
     'import/prefer-default-export': 'off',
     'react/no-unescaped-entities': 'off',
-    'react-refresh/only-export-components': 'warn',
+    //'react-refresh/only-export-components': 'warn',
+    'react-refresh/only-export-components': 'off',
   },
   overrides: [
     {
