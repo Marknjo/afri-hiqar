@@ -1,10 +1,14 @@
 import { Helmet } from 'react-helmet-async'
-import CenterContentWrapper from '@layouts/ContainerLayout'
-import Wrapper from '@layouts/Wrapper'
 import Layout from '@layouts/Layout'
 import { useQuery } from '@tanstack/react-query'
 import { isDev } from '@server/utils'
-import { Heading1, TextP } from '@ui/typography'
+import HomeHero from '@pages/home/hero'
+
+/// Sections
+import TopRated from '@pages/home/topRated'
+import Reviews from '@pages/home/reviews'
+import Offers from '@pages/home/offers'
+import ContactUs from '@pages/home/contact'
 
 export default function HomePage() {
   const toursQuery = useQuery({
@@ -51,41 +55,31 @@ export default function HomePage() {
 
   console.log(toursQuery.data)
 
-  const colors = [
-    'bg-border',
-    'bg-input',
-    'bg-ring',
-    'bg-background',
-    'bg-foreground',
-    'bg-primary',
-    'bg-primary-foreground',
-    'bg-secondary',
-    'bg-secondary-foreground',
-    'bg-destructive',
-    'bg-destructive-foreground',
-    'bg-muted',
-    'bg-muted-foreground',
-    'bg-accent',
-    'bg-accent-foreground',
-    'bg-popover',
-    'bg-popover-foreground',
-  ]
-  const divItems = Array.from(new Array(16)).map((_el, i) => i + 1)
-
-  console.log(divItems)
-
   return (
     <>
       <Helmet>
         <title>AfriHiqar</title>
       </Helmet>
-      <Layout>
-        <Wrapper as="section">
-          <CenterContentWrapper>
-            <Heading1 className="uppercase tracking-wider">Home Page</Heading1>
-            <TextP>this is home Page</TextP>
-          </CenterContentWrapper>
-        </Wrapper>
+
+      <Layout as="div">
+        {/* Navigation */}
+
+        {/* HERO */}
+        <HomeHero />
+
+        {/* Top Rated Experiences */}
+        <TopRated />
+
+        {/* What People Say About Us */}
+        <Reviews />
+
+        {/* The Perks */}
+        <Offers />
+
+        {/* Contact Us */}
+        <ContactUs />
+
+        {/* Footer */}
       </Layout>
     </>
   )
