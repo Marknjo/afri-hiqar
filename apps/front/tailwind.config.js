@@ -25,6 +25,15 @@ const calcGridMaxSize = (maxSize, outerMaxSize, gutter) => {
   )
 }
 
+function withOpacity(variableName) {
+  return ({ opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `hsla(var(${variableName}), ${opacityValue})`
+    }
+    return `hsl(var(${variableName}))`
+  }
+}
+
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -113,41 +122,84 @@ module.exports = {
             outerMaxSizeLG,
             false,
           ),
+          auto: `repeat(auto-fit, minmax(${theme('spacing.24')}, min-content))`,
         }
       },
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: withOpacity('--border'),
+        input: withOpacity('--input'),
+        ring: withOpacity('--ring'),
+        background: withOpacity('--background'),
+        foreground: withOpacity('--foreground'),
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: withOpacity('--primary'),
+          foreground: withOpacity('--primary-foreground'),
+          indigo: {
+            1: withOpacity('--indigo-1'),
+            2: withOpacity('--indigo-2'),
+            3: withOpacity('--indigo-3'),
+            4: withOpacity('--indigo-4'),
+            5: withOpacity('--indigo-5'),
+            6: withOpacity('--indigo-6'),
+            7: withOpacity('--indigo-7'),
+            8: withOpacity('--indigo-8'),
+            9: withOpacity('--indigo-9'),
+            10: withOpacity('--indigo-10'),
+            11: withOpacity('--indigo-11'),
+            12: withOpacity('--indigo-12'),
+          },
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: withOpacity('--secondary'),
+          foreground: withOpacity('--secondary-foreground'),
+          sky: {
+            1: withOpacity('--sky-1'),
+            2: withOpacity('--sky-2'),
+            3: withOpacity('--sky-3'),
+            4: withOpacity('--sky-4'),
+            5: withOpacity('--sky-5'),
+            6: withOpacity('--sky-6'),
+            7: withOpacity('--sky-7'),
+            8: withOpacity('--sky-8'),
+            9: withOpacity('--sky-9'),
+            10: withOpacity('--sky-10'),
+            11: withOpacity('--sky-11'),
+            12: withOpacity('--sky-12'),
+          },
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: withOpacity('--destructive'),
+          foreground: withOpacity('--destructive-foreground'),
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: withOpacity('--muted'),
+          foreground: withOpacity('--muted-foreground'),
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: withOpacity('--accent'),
+          foreground: withOpacity('--accent-foreground'),
+          gold: {
+            1: withOpacity('--gold-1'),
+            2: withOpacity('--gold-2'),
+            3: withOpacity('--gold-3'),
+            4: withOpacity('--gold-4'),
+            5: withOpacity('--gold-5'),
+            6: withOpacity('--gold-6'),
+            7: withOpacity('--gold-7'),
+            8: withOpacity('--gold-8'),
+            9: withOpacity('--gold-9'),
+            10: withOpacity('--gold-10'),
+            11: withOpacity('--gold-11'),
+            12: withOpacity('--gold-12'),
+          },
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: withOpacity('--popover'),
+          foreground: withOpacity('--popover-foreground'),
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+          DEFAULT: withOpacity('--card'),
+          foreground: withOpacity('--card-foreground'),
         },
       },
       borderRadius: {

@@ -9,7 +9,7 @@ export function Heading3({
 }) {
   return (
     <h2
-      className={`scroll-m-20 text-2xl font-semibold tracking-tight ${className}`}
+      className={`scroll-m-20 text-2xl font-normal tracking-tight ${className}`}
     >
       {children}
     </h2>

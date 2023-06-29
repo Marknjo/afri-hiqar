@@ -1,74 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200;0,400;0,500;0,600;0,700;0,900;1,200;1,500;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    --font-heading: 'Libre Baskerville', serif;
+    --font-body: 'Source Sans 3', san-serif;
+
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
 
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 230, 36.4%, 12.9%;
+    --foreground: 223, 100%, 98.6%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 47, 52.9%, 96.7%;
+    --muted-foreground: 43, 29.9%, 85.7%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 193, 100%, 97.3%;
+    --popover-foreground: 201, 74.6%, 12.2%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 193, 100%, 97.3%;
+    --card-foreground: 201, 74.6%, 12.2%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 223, 98.4%, 97.1%;
+    --input: 223, 98.4%, 97.1%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 227, 47.2%, 21%;
+    --primary-foreground: 225, 60%, 99.4%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 192, 85%, 55.8%;
+    --secondary-foreground: 193, 100%, 98.8%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 36, 20%, 49.5%;
+    --accent-foreground: 50, 20%, 99.1%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --ring: 215 20.2% 65.1%;
+    --ring: 224, 81.9%, 87.8%;
 
     --radius: 0.5rem;
+
+    /* Primary Color */
+    --indigo-1: 225, 60%, 99.4%;
+    --indigo-2: 223, 100%, 98.6%;
+    --indigo-3: 223, 98.4%, 97.1%;
+    --indigo-4: 223, 92.9%, 95%;
+    --indigo-5: 224, 87.1%, 92%;
+    --indigo-6: 224, 81.9%, 87.8%;
+    --indigo-7: 225, 77.4%, 82.1%;
+    --indigo-8: 226, 75.4%, 74.5%;
+    --indigo-9: 226, 70%, 55.5%;
+    --indigo-10: 226, 58.6%, 51.3%;
+    --indigo-11: 226, 55%, 45%;
+    --indigo-12: 226, 62%, 17%;
+
+    /* Accent Colors */
+    --gold-1: 50, 20%, 99.1%;
+    --gold-2: 47, 52.9%, 96.7%;
+    --gold-3: 46, 38.2%, 93.7%;
+    --gold-4: 44, 32.7%, 90.1%;
+    --gold-5: 43, 29.9%, 85.7%;
+    --gold-6: 41, 28.3%, 79.8%;
+    --gold-7: 39, 27.6%, 71.9%;
+    --gold-8: 36, 27.2%, 61.8%;
+    --gold-9: 36, 20%, 49.5%;
+    --gold-10: 36, 19.8%, 45.7%;
+    --gold-11: 36, 20%, 39%;
+    --gold-12: 36, 16%, 20%;
+
+    /* Secondary Color */
+    --sky-1: 193, 100%, 98.8%;
+    --sky-2: 193, 100%, 97.3%;
+    --sky-3: 193, 99%, 94.7%;
+    --sky-4: 193, 91.4%, 91.4%;
+    --sky-5: 194, 82%, 86.6%;
+    --sky-6: 194, 74.1%, 79.5%;
+    --sky-7: 194, 72.3%, 69.6%;
+    --sky-8: 193, 77.9%, 53.9%;
+    --sky-9: 193, 98%, 70%;
+    --sky-10: 193, 87%, 66.5%;
+    --sky-11: 195, 100%, 31.5%;
+    --sky-12: 195, 100%, 13%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 229, 24%, 10%;
+    --foreground: 223, 100%, 98.6%;
 
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted-foreground: 224, 81.9%, 87.8%;
 
     --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover-foreground: 193, 100%, 98.8%;
 
     --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card-foreground: 193, 100%, 98.8%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 201, 74.6%, 12.2%;
+    --input: 201, 74.6%, 12.2%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 225, 60%, 99.4%;
+    --primary-foreground: 230, 36.4%, 12.9%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 201, 74.6%, 12.2%;
+    --secondary-foreground: 193, 100%, 98.8%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 43, 14.3%, 9.6%;
+    --accent-foreground: 50, 20%, 99.1%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
 
-    --ring: 217.2 32.6% 17.5%;
+    --ring: 201, 74.6%, 12.2%;
+
+    /* Dark Primary Color */
+    --indigo-1: 229, 24%, 10%;
+    --indigo-2: 230, 36.4%, 12.9%;
+    --indigo-3: 228, 43.3%, 17.5%;
+    --indigo-4: 227, 47.2%, 21%;
+    --indigo-5: 227, 50%, 24.1%;
+    --indigo-6: 226, 52.9%, 28.2%;
+    --indigo-7: 226, 56%, 34.5%;
+    --indigo-8: 226, 58.2%, 44.1%;
+    --indigo-9: 226, 70%, 55.5%;
+    --indigo-10: 227, 75.2%, 61.6%;
+    --indigo-11: 228, 100%, 75.9%;
+    --indigo-12: 226, 83%, 96.3%;
+
+    /* Dark Accent Color */
+    --gold-1: 44, 9%, 8.3%;
+    --gold-2: 43, 14.3%, 9.6%;
+    --gold-3: 42, 15.5%, 13%;
+    --gold-4: 41, 16.4%, 15.6%;
+    --gold-5: 41, 16.9%, 17.8%;
+    --gold-6: 40, 17.6%, 20.8%;
+    --gold-7: 38, 18.5%, 26.4%;
+    --gold-8: 36, 19.6%, 35.1%;
+    --gold-9: 36, 20%, 49.5%;
+    --gold-10: 36, 22.3%, 54.5%;
+    --gold-11: 35, 30%, 64%;
+    --gold-12: 49, 52%, 93.8%;
+
+    /*Dark  Secondary Color */
+    --sky-1: 205, 45%, 8.6%;
+    --sky-2: 202, 71.4%, 9.6%;
+    --sky-3: 201, 74.6%, 12.2%;
+    --sky-4: 201, 77.4%, 14.4%;
+    --sky-5: 200, 80.3%, 16.5%;
+    --sky-6: 200, 84.1%, 18.9%;
+    --sky-7: 199, 90.2%, 22.1%;
+    --sky-8: 198, 100%, 26.1%;
+    --sky-9: 193, 98%, 70%;
+    --sky-10: 192, 100%, 77%;
+    --sky-11: 192, 85%, 55.8%;
+    --sky-12: 198, 98%, 95.8%;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -84,10 +173,25 @@
   * {
     @apply border-border;
   }
+
+  html {
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
   body {
     @apply bg-background text-foreground;
 
     color: rgb(var(--foreground-rgb));
+
     background: linear-gradient(
         to bottom,
         transparent,
@@ -96,3 +200,40 @@
       rgb(var(--background-start-rgb));
   }
 }
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --ring: 215 20.2% 65.1%;
+
+  --radius: 0.5rem;
+} */
