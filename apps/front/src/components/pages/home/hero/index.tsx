@@ -5,6 +5,7 @@ import { GridSpacer } from '@ui/GridSpacer'
 
 import HeroImage from './HeroImage'
 import HeroHeader from './HeroHeader'
+import HeroSearch from './HeroSearch'
 
 export default function HomeHero({ className }: { className?: string }) {
   return (
@@ -18,6 +19,9 @@ export default function HomeHero({ className }: { className?: string }) {
       <HeroHeader />
 
       {/* SEARCH */}
+      <GridSpacer className="row-start-2 z-[1] row-span-1 h-[96px]" />
+      <HeroSearch />
+      <GridSpacer className="row-start-4 z-[3] row-span-1 h-[50px]" />
 
       {/* About Section */}
     </Layout>
