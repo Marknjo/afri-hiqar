@@ -1,22 +1,20 @@
-import SectionLayout from '@layouts/SectionLayout'
+import Layout from '@layouts/Layout'
+import { GridSpacer } from '@ui/GridSpacer'
 
 /// Compose Hero Section
-import HeroHeader from './HeroHeader'
-import HomeSearch from './HomeSearch'
-import HomeAboutIMG from './HomeAboutIMG'
-import HomeAboutContent from './HomeAboutContent'
+
+import HeroImage from './HeroImage'
 
 export default function HomeHero({ className }: { className?: string }) {
   return (
-    <SectionLayout as="div" className={className}>
-      {/* HERO */}
-      <HeroHeader />
+    <Layout as="div" className={`col-span-full ${className}`}>
+      {/* Hero Image */}
+      <div className="col-span-full row-start-1 row-span-2  z-[2] bg-gradient-to-tr from-primary-indigo-10/80 to-primary-indigo-1/5 " />
+      <HeroImage />
 
       {/* SEARCH */}
-      <HomeSearch />
-      {/* Who We Are */}
-      <HomeAboutIMG />
-      <HomeAboutContent />
-    </SectionLayout>
+
+      {/* About Section */}
+    </Layout>
   )
 }
