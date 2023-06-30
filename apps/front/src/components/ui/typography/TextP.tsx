@@ -8,7 +8,7 @@ export function TextP({
   className?: CSSProperties | string
 }) {
   return (
-    <p className={`leading-7 [&:not(:first-child)]:mt-6 ${className}`}>
+    <p className={`leading-7 [&:not(:first-child)]:mt-4 ${className}`}>
       {children}
     </p>
   )
