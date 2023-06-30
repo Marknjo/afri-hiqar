@@ -14,7 +14,7 @@ export default function Layout({
 }) {
   const propsWithDefault = {
     ...props,
-    className: `grid grid-cols-layout-sm md:grid-cols-layout-md lg:grid-cols-layout-lg gap-2 md:gap-8 min-h-screen w-screen  ${className}`,
+    className: `grid grid-cols-layout-sm md:grid-cols-layout-md lg:grid-cols-layout-lg gap-x-2 md:gap-x-8 min-h-screen w-full  ${className}`,
   }
 
   return createElement(as || 'main', propsWithDefault, children)

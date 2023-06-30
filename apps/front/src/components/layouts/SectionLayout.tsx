@@ -14,7 +14,7 @@ export default function SectionLayout({
 }) {
   const propsWithDefault = {
     ...props,
-    className: `grid grid-cols-sec-sm md:grid-cols-sec-md lg:grid-cols-sec-lg gap-2 md:gap-5 lg:gap-8 min-h-screen w-screen  ${className}`,
+    className: `grid grid-cols-sec-sm md:grid-cols-sec-md lg:grid-cols-sec-lg gap-2 md:gap-x-5 lg:gap-x-8 min-h-screen w-full col-start-1 col-span-12`,
   }
 
   return createElement(as || 'section', propsWithDefault, children)

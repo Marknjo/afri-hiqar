@@ -25,7 +25,7 @@ export default function Wrapper({
 }) {
   const propsWithDefault = {
     ...props,
-    className: `col-start-1 col-span-12 relative ${className}`,
+    className: `col-start-2 col-span-12 relative ${className}`,
   }
 
   return createElement(as || 'section', propsWithDefault, children)
