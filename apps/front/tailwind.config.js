@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-
+const defaultTheme = require('tailwindcss/defaultTheme')
 const mainGridColumn = (maxSize, minSize, outerSize, hasOuterMargin) => {
   if (hasOuterMargin) {
-    return `minmax(${outerSize}, 1fr) repeat(12, minmax(${minSize}, ${maxSize}px)) minmax(${outerSize}, 1fr)`
+    return `minmax(${outerSize}px, 1fr) repeat(12, minmax(${minSize}px, ${maxSize}px)) minmax(${outerSize}px, 1fr)`
   }
 
-  return `repeat(12, minmax(${minSize}, ${maxSize}px))`
+  return `repeat(12, minmax(${minSize}px, ${maxSize}px))`
 }
 
 const calcGridMaxSize = (maxSize, outerMaxSize, gutter) => {
@@ -42,6 +42,10 @@ module.exports = {
     '../../packages/ui/components/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    screens: {
+      xs: '320px',
+      ...defaultTheme.screens,
+    },
     container: {
       center: true,
       padding: '2rem',
@@ -55,8 +59,8 @@ module.exports = {
         const outerMaxSizeMD = Number.parseFloat(theme('spacing.5')) * 16
         const outerMaxSizeSM = Number.parseFloat(theme('spacing.3')) * 16
 
-        const minGridSizeLG = theme('spacing.5')
-        const minGridSizeSM = theme('spacing.5')
+        const minGridSizeLG = Number.parseFloat(theme('spacing.5')) * 16
+        const minGridSizeSM = Number.parseFloat(theme('spacing.5')) * 16
 
         // Max Grid Sizes
         const gridSizeLG = theme('screens.2xl')
@@ -74,11 +78,23 @@ module.exports = {
         const maxGridSizeSM = calcGridMaxSize(gridSizeSM, outerMaxSizeSM)
 
         /// Cal Section MAX SIZES
-        const maxSecSizeLG = calcGridMaxSize(gridSizeLG, undefined, gutterLG)
+        const maxSecSizeLG = calcGridMaxSize(
+          gridSizeLG,
+          outerMaxSizeLG,
+          gutterLG,
+        )
 
-        const maxSecSizeMD = calcGridMaxSize(gridSizeMD, undefined, gutterMD)
+        const maxSecSizeMD = calcGridMaxSize(
+          gridSizeMD,
+          outerMaxSizeMD,
+          gutterMD,
+        )
 
-        const maxSecSizeSM = calcGridMaxSize(gridSizeSM, undefined, gutterSM)
+        const maxSecSizeSM = calcGridMaxSize(
+          gridSizeSM,
+          outerMaxSizeSM,
+          gutterSM,
+        )
 
         console.log({
           maxContainerSizeLG: maxSecSizeLG,
@@ -216,13 +232,21 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        'move-in-bottom': {
+          from: {
+            opacity: 0,
+            transform: 'translateY(1.75rem)',
+          },
+          to: {
+            opacity: 1,
+            transform: 'translate(0)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-      screens: {
-        xs: '320px',
+        'move-in-bottom': 'move-in-bottom 0.5s ease-out 0.75s backwards',
       },
     },
   },
