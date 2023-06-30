@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@ui/button'
+import { Button } from '@ui/buttons/button'
 import { ToastAction, useToast } from '@ui/toast'
 
 export function ToastDestructiveBtn({

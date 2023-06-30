@@ -1,4 +1,4 @@
-import { Button } from '@ui/button'
+import { Button } from '@ui/buttons/button'
 import { useToast, ToastAction } from '@ui/toast'
 
 export function ToastWithTitle({
