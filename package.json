@@ -14,7 +14,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test",
     "coverage": "vitest --coverage",
-    "prepare": "husky install",
+    "//-#": "prepare: husky install",
     "//": "IMPORT DB DATA",
     "import": "turbo run import",
     "import:user": "turbo run import:user",
