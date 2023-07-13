@@ -32,6 +32,7 @@ import { htmlToText } from 'html-to-text'
 
 import Mail from 'nodemailer/lib/mailer'
 import { BadRequestException } from '@lib/exceptions/BadRequestException'
+import { isProd } from '@utils/env'
 
 interface IEmailOptions {
   url?: string
@@ -70,7 +71,7 @@ class Email {
     isContact?: boolean,
   ) {
     // Initialize from
-    this.from = `${env.APP_USER!} <${env.APP_USER_EMAIL!}>`
+    this.from = `${env.APP_USER!} <${env.APP_ADMIN_EMAIL!}>`
 
     // Initialize to
     this.to = this.setToRecipient(!!isContact, options)
@@ -113,7 +114,7 @@ class Email {
     if (isNotDev && isNotProd) return false
 
     // Based on production
-    if (env.NODE_ENV === 'production') {
+    if (isProd) {
       // Send mail using sendGrid settings
       const host = env.BREVO_HOST || false
       const port = env.BREVO_PORT || false
@@ -146,7 +147,7 @@ class Email {
     return createTransport({
       /* @ts-ignore */
       host,
-      port,
+      port: +port,
       auth: {
         user,
         pass,

@@ -1,6 +1,5 @@
 import { env } from 'process'
 import { resolve } from 'path'
-import { randomBytes } from 'crypto'
 
 import express, { Application } from 'express'
 import cookieParser from 'cookie-parser'
@@ -31,8 +30,6 @@ import { isDev } from '@utils/env'
 import rateLimitConfig from '@config/rateLimit.config'
 
 const app: Application = express()
-
-console.log(randomBytes(32).toString('hex'))
 
 /// Configs
 //- cors for all HTTP Methods
