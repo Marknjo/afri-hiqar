@@ -30,7 +30,7 @@
     "@mj/eslint-config": "workspace:*",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "esbuild": "^0.18.10",
+    "esbuild": "^0.18.13",
     "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
     "lint-staged": "^13.2.3",
@@ -41,7 +41,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "packageManager": "pnpm@8.6.5",
+  "packageManager": "pnpm@8.6.7",
   "lint-staged": {
     "apps/**/*.{js,ts,jsx,tsx}": [
       "eslint --fix"
