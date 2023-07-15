@@ -91,8 +91,8 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
       mongoose:
-        specifier: ^7.3.0
-        version: 7.3.0
+        specifier: ^7.3.4
+        version: 7.3.4
       morgan:
         specifier: ^1.10.0
         version: 1.10.0
@@ -5510,8 +5510,8 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.3.0:
-    resolution: {integrity: sha512-gvkV5qxmBkGohlk7VTeePMPM2OkQPeqVYZHvjoM4goOIK6G1eSfJMZwXV21asivXxlaz6OuP29TfGAKrKooDAg==}
+  /mongoose@7.3.4:
+    resolution: {integrity: sha512-luvv4PKFiFYaHNn5wGIRrMML3Vvoa8lkdhcLE1S/6gY9s9CUOdEu9olbDrkhvnwRQ20j1SrQFO5JEApW0xwL3w==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.4.0
