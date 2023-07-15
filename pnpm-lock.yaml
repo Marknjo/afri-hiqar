@@ -112,8 +112,8 @@ importers:
         specifier: ^1.6.6
         version: 1.6.6
       stripe:
-        specifier: ^12.10.0
-        version: 12.10.0
+        specifier: ^12.13.0
+        version: 12.13.0
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
@@ -7084,8 +7084,8 @@ packages:
       acorn: 8.10.0
     dev: true
 
-  /stripe@12.10.0:
-    resolution: {integrity: sha512-JJS4Bzx4LAzS8cTy26wqCdRQmhUtyV2XjFXfFTXa+W+Won2PXEWu85RpROi1ZN6pNFcWH7xrhXVW0OfCxUmwwA==}
+  /stripe@12.13.0:
+    resolution: {integrity: sha512-mn7CxL71FCRWkQp33jcJ7+xfRF7HGzPYZlq2c87U+6kxL1qd7f/N3S1g1E5uaSWe83V5v3jN/IiWqg9y8+kWRw==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 20.4.2
