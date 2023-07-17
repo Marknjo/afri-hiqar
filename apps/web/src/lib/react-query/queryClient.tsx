@@ -1,3 +1,4 @@
+import { isDev } from '@server/utils'
 import { QueryClient } from '@tanstack/react-query'
 import { toast } from '@ui/toast'
 
@@ -8,6 +9,9 @@ function QueryErrorHandler(error: unknown): void {
     error instanceof Error ? error.message : 'error connecting to server'
 
   // prevent duplicate toasts
+
+  // eslint-disable-next-line no-console, @typescript-eslint/no-unused-expressions
+  isDev ? console.log(error) : ''
 
   // show toast when there is error in queries and mutations
   toast({

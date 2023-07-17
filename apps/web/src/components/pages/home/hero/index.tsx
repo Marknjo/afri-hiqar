@@ -7,6 +7,7 @@ import HeroImage from './HeroImage'
 import HeroHeader from './HeroHeader'
 import HeroSearch from './HeroSearch'
 import AboutContent from './AboutContent'
+import AboutIMG from './AboutIMG'
 
 export default function HomeHero({ className }: { className?: string }) {
   return (
@@ -26,6 +27,8 @@ export default function HomeHero({ className }: { className?: string }) {
 
       {/* About Section */}
       <AboutContent />
+
+      <AboutIMG />
     </Layout>
   )
 }
