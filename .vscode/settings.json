@@ -16,5 +16,8 @@
     "shadcn",
     "tsnd",
     "uuidv"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ]
 }
